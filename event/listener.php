@@ -85,8 +85,10 @@ class listener implements EventSubscriberInterface
 	{
 		$forum_url = generate_board_url();
 		// delete protocol from forum url
-		if($this->config['qrlogin_del_http'])
+		if ($this->config['qrlogin_del_http'])
+		{
 			$forum_url = str_replace(array('http://', 'https://', 'www.'), array('', '', ''), $forum_url);
+		}
 
 		// get qrcode settings
 		$pixelPerPoint = $this->config['qrlogin_qrcode_pixel_per_point'];
