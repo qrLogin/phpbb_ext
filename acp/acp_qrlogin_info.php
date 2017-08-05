@@ -14,14 +14,14 @@ namespace qrlogin\qrlogin\acp;
 class acp_qrlogin_info
 {
 
-    function module()
-    {
+	function module()
+	{
 		return array(
 			'filename' => '\qrlogin\qrlogin\acp\acp_qrlogin_module',
 			'title'	=> 'ACP_QRLOGIN',
 			'modes'	=> array(
-                'settings' => array(
-                    'title' => 'SETTINGS',
+				'settings' => array(
+					'title' => 'SETTINGS',
 					'auth'  => 'ext_qrlogin/qrlogin && acl_a_board',
 					'cat'   => array('ACP_QRLOGIN')
 				),

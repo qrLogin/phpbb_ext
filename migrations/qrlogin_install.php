@@ -23,19 +23,19 @@ class qrlogin_install extends \phpbb\db\migration\migration
 
 	public function update_data()
 	{
-	
+
 		return array(
-            // Add the config variable we want to be able to set
-            array('config.add', array('qrlogin_del_http', 1)),
-            array('config.add', array('qrlogin_qrcode_pixel_per_point', 2)),
-            array('config.add', array('qrlogin_qrcode_fore_color', '#00008B')),
-            array('config.add', array('qrlogin_qrcode_back_color', '#FFFFFF')),
-            array('config.add', array('qrlogin_navbar_view', 1)),
-            array('config.add', array('qrlogin_fixed_view', 1)),
-            array('config.add', array('qrlogin_fixed_settings', 'left: 0%; bottom: 0%; padding: 5px; border-radius: 10px')),
-            array('config.add', array('qrlogin_fixed_color', '#FFFFFF')),
-            array('config.add', array('qrlogin_header_view', 1)),
-            array('config.add', array('qrlogin_header_top_padding', 10)),
+			// Add the config variable we want to be able to set
+			array('config.add', array('qrlogin_del_http', 1)),
+			array('config.add', array('qrlogin_qrcode_pixel_per_point', 2)),
+			array('config.add', array('qrlogin_qrcode_fore_color', '#00008B')),
+			array('config.add', array('qrlogin_qrcode_back_color', '#FFFFFF')),
+			array('config.add', array('qrlogin_navbar_view', 1)),
+			array('config.add', array('qrlogin_fixed_view', 1)),
+			array('config.add', array('qrlogin_fixed_settings', 'left: 0%; bottom: 0%; padding: 5px; border-radius: 10px')),
+			array('config.add', array('qrlogin_fixed_color', '#FFFFFF')),
+			array('config.add', array('qrlogin_header_view', 1)),
+			array('config.add', array('qrlogin_header_top_padding', 10)),
 
 			// Add ACP module
 			array('module.add', array(
@@ -51,7 +51,7 @@ class qrlogin_install extends \phpbb\db\migration\migration
 					'settings'				=> array('settings'),
 				),
 			)),
-	
+
 			// Add UCP module
 			array('module.add', array(
 				'ucp',
@@ -68,5 +68,4 @@ class qrlogin_install extends \phpbb\db\migration\migration
 			)),
 		);
 	}
-
 }
