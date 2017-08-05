@@ -1,0 +1,82 @@
+<!-- INCLUDE overall_header.html -->
+
+<h1>
+    <a href="http://qrlogin.info">
+        <img src="../ext/qrlogin/qrlogin/styles/all/theme/images/logo.svg" width="40" title="Go to site qrlogin.info">
+    </a>
+    {L_QRLOGIN_SETTING}
+</h1>
+<form id="acp_board" method="post" action="{U_ACTION}">
+    <fieldset>
+        <legend>{L_QRLOGIN_QRCODE_HEADER}</legend>
+         <dl>
+            <dt><label for="qrlogin_del_http">{L_QRLOGIN_DEL_HTTP}{L_COLON}</label><br /><span>{L_QRLOGIN_DEL_HTTP_EXPLAIN}</span></dt>
+            <dd><input type="radio" class="radio" name="qrlogin_del_http" value="1" <!-- IF qrlogin_del_http -->checked="checked" <!-- ENDIF -->/> {L_YES} &nbsp;
+                <input type="radio" class="radio" name="qrlogin_del_http" value="0" <!-- IF not qrlogin_del_http -->checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
+        </dl>
+        <hr />
+        <dl>
+			<dt><label for="qrlogin_qrcode_pixel_per_point">{L_QRLOGIN_QRCODE_PIXEL_PER_POINT}{L_COLON}</label><br /><span>{L_QRLOGIN_QRCODE_PIXEL_PER_POINT_EXPLAIN}</span></dt>
+			<dd><input name="qrlogin_qrcode_pixel_per_point" type="number" id="qrlogin_qrcode_pixel_per_point" value="{{ qrlogin_qrcode_pixel_per_point }}" min="1" max="5" /> px</dd>
+		</dl>
+        <dl>
+		    <dt>
+		        <label for="qrlogin_qrcode_fore_color">{L_QRLOGIN_QRCODE_FORE_COLOR}{L_COLON}</label><br /><span>{L_QRLOGIN_QRCODE_FORE_COLOR_EXPLAIN}</span>
+		        <br/>
+			    <label for="qrlogin_qrcode_back_color">{L_QRLOGIN_QRCODE_BACK_COLOR}{L_COLON}</label><br /><span>{L_QRLOGIN_QRCODE_BACK_COLOR_EXPLAIN}</span>
+		    </dt>
+		    <dd>
+		        <input class="jscolor {hash:true, uppercase:false}" name="qrlogin_qrcode_fore_color" type="text" id="qrlogin_qrcode_fore_color" value="{{ qrlogin_qrcode_fore_color }}" size="8" maxlength="8" />
+		        <br/>
+                <input class="jscolor {hash:true, uppercase:false}" name="qrlogin_qrcode_back_color" type="text" id="qrlogin_qrcode_back_color" value="{{ qrlogin_qrcode_back_color }}" size="8" maxlength="8" />
+            </dd>
+		</dl>
+	</fieldset>
+    <fieldset> 
+        <legend>{L_QRLOGIN_VIEW_HEADER}</legend>
+        <dl>
+            <dt><label for="qrlogin_navbar_view">{L_QRLOGIN_NAVBAR_VIEW}{L_COLON}</label><br /><span>{L_QRLOGIN_NAVBAR_VIEW_EXPLAIN}</span></dt>
+            <dd><input type="radio" class="radio" name="qrlogin_navbar_view" value="1" <!-- IF qrlogin_navbar_view -->checked="checked" <!-- ENDIF -->/> {L_YES} &nbsp;
+                <input type="radio" class="radio" name="qrlogin_navbar_view" value="0" <!-- IF not qrlogin_navbar_view -->checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
+        </dl>
+        <hr />
+        <dl>
+            <dt><label for="qrlogin_fixed_view">{L_QRLOGIN_FIXED_VIEW}{L_COLON}</label><br /><span>{L_QRLOGIN_FIXED_VIEW_EXPLAIN}</span></dt>
+            <dd><input type="radio" class="radio" name="qrlogin_fixed_view" value="1" <!-- IF qrlogin_fixed_view -->checked="checked" <!-- ENDIF -->/> {L_YES} &nbsp;
+                <input type="radio" class="radio" name="qrlogin_fixed_view" value="0" <!-- IF not qrlogin_fixed_view -->checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
+        </dl>
+        <dl>
+			<dt><label for="qrlogin_fixed_settings">{L_QRLOGIN_FIXED_SETTINGS}{L_COLON}</label><br /><span>{L_QRLOGIN_FIXED_SETTINGS_EXPLAIN}</span></dt>
+			<dd><input name="qrlogin_fixed_settings" type="text" id="qrlogin_fixed_settings" value="{{ qrlogin_fixed_settings }}" size="80" maxlength="255" validate="string" /></dd>
+		</dl>
+        <dl>
+			<dt><label for="qrlogin_fixed_color">{L_QRLOGIN_FIXED_COLOR}{L_COLON}</label><br /><span>{L_QRLOGIN_FIXED_COLOR_EXPLAIN}</span></dt>
+			<dd><input class="jscolor {hash:true, uppercase:false}" name="qrlogin_fixed_color" type="text" id="qrlogin_fixed_color" value="{{ qrlogin_fixed_color }}" size="8" maxlength="8" /></dd>
+		</dl>
+		<hr />
+        <dl>
+            <dt><label for="qrlogin_header_view">{L_QRLOGIN_HEADER_VIEW}{L_COLON}</label><br /><span>{L_QRLOGIN_HEADER_VIEW_EXPLAIN}</span></dt>
+            <dd><input type="radio" class="radio" name="qrlogin_header_view" value="1" <!-- IF qrlogin_header_view -->checked="checked" <!-- ENDIF -->/> {L_YES} &nbsp;
+                <input type="radio" class="radio" name="qrlogin_header_view" value="0" <!-- IF not qrlogin_header_view -->checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
+        </dl>
+        <dl>
+			<dt><label for="qrlogin_header_top_padding">{L_QRLOGIN_HEADER_TOP_PADDING}{L_COLON}</label><br /><span>{L_QRLOGIN_HEADER_TOP_PADDING_EXPLAIN}</span></dt>
+			<dd><input name="qrlogin_header_top_padding" type="number" id="qrlogin_header_top_padding" value="{{ qrlogin_header_top_padding }}" min="0" max="50" /> px</dd>
+		</dl>
+		<hr />
+		{L_QRLOGIN_VIEW_FOOTER}
+    </fieldset>
+    <fieldset>    
+        <legend>{L_ACP_SUBMIT_CHANGES}</legend>
+		<p class="submit-buttons">
+            <input class="button1" type="submit" id="submit" name="submit" value="{L_SUBMIT}" />&nbsp;
+            <input class="button2" type="reset" id="reset" name="reset" value="{L_RESET}" />
+        </p>
+
+        {S_FORM_TOKEN}
+    </fieldset>
+</form>
+
+{% INCLUDEJS '@qrlogin_qrlogin/jscolor.js' %}
+
+<!-- INCLUDE overall_footer.html -->

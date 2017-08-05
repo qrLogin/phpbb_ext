@@ -1,0 +1,40 @@
+{
+    "name": "qrlogin/qrlogin",
+    "type": "phpbb-extension",
+    "description": "With this extension you can login to forum width qrLogin.",
+    "homepage": "http://qrlogin.info",
+    "version": "0.9.1",
+    "time": "2017-07-29",
+    "keywords": [
+        "phpbb",
+        "extension",
+        "qrlogin"
+    ],
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "qrlogin",
+            "homepage": "http://qrlogin.info",
+            "email": "qrlogin.info@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "phpbb/phpbb": ">=3.2.0-a1,<3.3.0@dev"
+    },
+    "require-dev": {
+        "phpbb/epv": "dev-master"
+    },
+    "extra": {
+        "display-name": "qrLogin",
+        "soft-require": {
+            "phpbb/phpbb": ">=3.2.0-a1,<3.3.0@dev"
+        },
+        "version-check": {
+            "host": "www.phpbb.com",
+            "directory": "/customise/db/extension/qrlogin",
+            "filename": "version_check"
+        }
+    }
+}

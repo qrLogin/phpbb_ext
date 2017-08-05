@@ -1,0 +1,14 @@
+<!-- IF not S_USER_LOGGED_IN and not S_IS_BOT -->
+
+    <!-- IF QRLOGIN_FIXED_VIEW -->
+        <div style='position: fixed; background: {QRLOGIN_FIXED_COLOR}; {QRLOGIN_FIXED_SETTINGS}'>
+            <a href="http://qrlogin.info" title="{L_SCAN_QRLOGIN}" style="padding: 0">{QRCODE_LOGIN}</a>
+        </div>    
+    <!-- ENDIF --> 
+
+    <!-- IF not $INCLUDED_JQUERY_QR -->
+        <!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ajax.js -->
+        <!-- DEFINE $INCLUDED_JQUERY_QR = true -->
+    <!-- ENDIF -->
+
+<!-- ENDIF -->    
