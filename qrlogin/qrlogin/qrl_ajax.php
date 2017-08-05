@@ -42,8 +42,8 @@ $login = $auth->login($username, $password, $autologin);
 
 if ((!empty($login) && $login['status'] == LOGIN_SUCCESS) || $user->data['user_id'] != ANONYMOUS)
 {
-	echo '!';
 	file_put_contents($fn, 200);
+	exit('!');
 }
 else
 {
