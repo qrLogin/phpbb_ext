@@ -8,7 +8,7 @@
 */
 
 // set error in answer - default !!
-var_dump(http_response_code(400));
+http_response_code(400);
 
 // get JSON from POST
 $postdata = \json_decode(file_get_contents('php://input'), true);
@@ -45,7 +45,7 @@ while ((!file_exists($fna)) && ($t < 50))
 // exists answer !
 if (file_exists($fna))
 {
-	var_dump(http_response_code(file_get_contents($fna)));
+	http_response_code(file_get_contents($fna));
 	unlink($fna);
 }
 
