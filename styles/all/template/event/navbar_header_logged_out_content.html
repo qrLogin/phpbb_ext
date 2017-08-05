@@ -1,0 +1,19 @@
+<!-- IF QRLOGIN_NAVBAR_VIEW -->
+    <li class="rightside" data-skip-responsive="true">
+        <div class="header-profile dropdown-container">
+            <a href="#" class="dropdown-trigger">
+			    <i class="icon fa-power-off fa-fw" aria-hidden="true"></i><span>qrLogin</span>
+    		</a>
+            <div class="dropdown">
+                <div class="pointer"><div class="pointer-inner"></div></div>
+                <ul class="dropdown-contents" >
+                    <a href="http://qrlogin.info" title="{L_SCAN_QRLOGIN}" style="padding: 0">{QRCODE_LOGIN}</a>
+                </ul>
+            </div>
+        </div>
+    </li>
+<!-- ENDIF -->
+<!-- IF not $INCLUDED_JQUERY_QR -->
+    <!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ajax.js -->
+    <!-- DEFINE $INCLUDED_JQUERY_QR = true -->
+<!-- ENDIF -->

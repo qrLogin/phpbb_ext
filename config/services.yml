@@ -1,0 +1,12 @@
+services:
+    qrlogin.qrlogin.listener:
+        class: qrlogin\qrlogin\event\listener
+        arguments:
+            - '@config'
+            - '@template'
+            - '@user'
+            - '@language'
+            - '%core.root_path%'
+            - '%core.php_ext%'
+        tags:
+            - { name: event.listener }
