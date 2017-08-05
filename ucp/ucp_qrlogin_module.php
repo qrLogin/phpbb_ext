@@ -11,9 +11,6 @@
 
 namespace qrlogin\qrlogin\ucp;
 
-set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__).DIRECTORY_SEPARATOR.'../qrl');
-include_once "qrllib.php";
-
 class ucp_qrlogin_module
 {
 
@@ -23,6 +20,9 @@ class ucp_qrlogin_module
 
 	public function main($id, $mode)
 	{
+		set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__).DIRECTORY_SEPARATOR.'../qrl');
+		include_once "qrllib.php";
+
 		global $user, $template, $config;
 
 		// Set desired template
