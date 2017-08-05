@@ -45,12 +45,12 @@ class listener implements EventSubscriberInterface
 	* @param string					    $php_ext
 	*/
 	public function __construct(
-	    \phpbb\config\config $config,
-		\phpbb\template\template $template,
+        \phpbb\config\config $config,
+        \phpbb\template\template $template,
 		\phpbb\user $user,
-		\phpbb\language\language $language,
-		$root_path,
-		$php_ext
+        \phpbb\language\language $language,
+        $root_path,
+        $php_ext
 	)
 	{
         $this->config       = $config;
@@ -66,11 +66,11 @@ class listener implements EventSubscriberInterface
 	static public function getSubscribedEvents()
 	{
 		return array(
-			'core.page_header_after'	=> 'get_qrcode',
-		    'core.user_setup'           => 'load_language_on_setup',
-		);
+            'core.page_header_after'	=> 'get_qrcode',
+            'core.user_setup'           => 'load_language_on_setup',
+        );
 	}
-	
+
 	public function load_language_on_setup($event)
     {
         $lang_set_ext = $event['lang_set_ext'];
@@ -87,14 +87,14 @@ class listener implements EventSubscriberInterface
         // delete protocol from forum url
         if($this->config['qrlogin_del_http'])
             $forum_url = str_replace(array('http://', 'https://', 'www.'), array('', '', ''), $forum_url);
-        
+
         // get qrcode settings
         $pixelPerPoint = $this->config['qrlogin_qrcode_pixel_per_point'];
         $fore_color = hexdec(ltrim($this->config['qrlogin_qrcode_fore_color'], '#'));
         $back_color = hexdec(ltrim( $this->config['qrlogin_qrcode_back_color'], '#'));
         // svg qrcode for login
         $qrcode = qrLogin_code("QRLOGIN\nL:V1\n" . $forum_url . "\n" . $this->user->session_id, $pixelPerPoint, $fore_color, $back_color);
-        
+
 		$this->template->assign_vars(array(
 			'QRCODE_LOGIN'                  => $qrcode,
 			'QRLOGIN_NAVBAR_VIEW'           => $this->config['qrlogin_navbar_view'],

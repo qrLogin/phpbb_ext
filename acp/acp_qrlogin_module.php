@@ -1,13 +1,13 @@
 <?php
 
 /**
- *
- * qrlogin extension for phpBB.
- *
- * @copyright (c) 2017 qrlogin <http://qrlogin.info>
- * @license GNU General Public License, version 2 (GPL-2.0)
- *
- */
+*
+* qrlogin extension for phpBB.
+*
+* @copyright (c) 2017 qrlogin <http://qrlogin.info>
+* @license GNU General Public License, version 2 (GPL-2.0)
+*
+*/
 
 namespace qrlogin\qrlogin\acp;
 
@@ -30,7 +30,7 @@ class acp_qrlogin_module
         {
             if (!check_form_key('qrlogin_settings'))
             {
-                 trigger_error('FORM_INVALID');
+                trigger_error('FORM_INVALID');
             }
 
             $config->set('qrlogin_del_http', $request->variable('qrlogin_del_http', 1));
@@ -43,7 +43,7 @@ class acp_qrlogin_module
             $config->set('qrlogin_fixed_color', $request->variable('qrlogin_fixed_color', '#FFFFFF'));
             $config->set('qrlogin_header_view', $request->variable('qrlogin_header_view', 0));
             $config->set('qrlogin_header_top_padding', $request->variable('qrlogin_header_top_padding', 0));
-            
+
             trigger_error($phpbb_container->get('language')->lang('ACP_QRLOGIN_SETTING_SAVED') . adm_back_link($this->u_action));
         }
 

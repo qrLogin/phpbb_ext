@@ -14,7 +14,9 @@ var_dump(http_response_code(400));
 $postdata = \json_decode(file_get_contents('php://input'), true);
 
 // if data not correct
-if ($postdata['objectName'] != 'qrLogin') exit;	
+if ($postdata['objectName'] != 'qrLogin') {
+    exit;
+};
 
 $sessionid = urldecode($postdata['sessionid']);
 $username = urldecode($postdata['login']);
@@ -37,8 +39,8 @@ while((!file_exists($fna)) && ($t < 50)){
 
 // exists answer !
 if(file_exists($fna)){
-   var_dump(http_response_code(file_get_contents($fna)));
-   unlink($fna);
+    var_dump(http_response_code(file_get_contents($fna)));
+    unlink($fna);
 }
 
 // if file with data exists (((

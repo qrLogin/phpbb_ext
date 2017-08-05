@@ -40,7 +40,7 @@ if (empty($lang) || !is_array($lang))
 $lang = array_merge(
 	$lang, array(
 		'ACP_QRLOGIN'                               => 'qrLogin',
-		'QRLOGIN_SETTING'                           => 'qrLogin settings',
+        'QRLOGIN_SETTING'                           => 'qrLogin settings',
         'QRLOGIN_QRCODE_HEADER'                     => 'Settings qrcode',
         'QRLOGIN_DEL_HTTP'                          => 'Delete http, https & www from identifier',
         'QRLOGIN_DEL_HTTP_EXPLAIN'                  => 'We recommend using this option. Then, as the identifier for qrLogin, only the domain and path to your forum are used.',
