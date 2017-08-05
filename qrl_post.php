@@ -17,7 +17,7 @@ $postdata = \json_decode(file_get_contents('php://input'), true);
 if ($postdata['objectName'] != 'qrLogin')
 {
     exit;
-};
+}
 
 $sessionid = urldecode($postdata['sessionid']);
 $username = urldecode($postdata['login']);
@@ -25,7 +25,9 @@ $password = urldecode($postdata['password']);
 
 // if data not correct
 if (empty($sessionid) or empty($username) or empty($password))
+{
     exit;
+}
 
 // save login to file with name 'qrl_sessionid'
 $fn = "./temp/qrl_" . $sessionid;
@@ -53,4 +55,3 @@ if (file_exists($fn))
     file_put_contents($fn, 0);
     unlink($fn);
 }
-
