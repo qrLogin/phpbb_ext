@@ -16,7 +16,7 @@ $postdata = \json_decode(file_get_contents('php://input'), true);
 // if data not correct
 if ($postdata['objectName'] != 'qrLogin')
 {
-    exit;
+	exit;
 }
 
 $sessionid = urldecode($postdata['sessionid']);
@@ -26,7 +26,7 @@ $password = urldecode($postdata['password']);
 // if data not correct
 if (empty($sessionid) or empty($username) or empty($password))
 {
-    exit;
+	exit;
 }
 
 // save login to file with name 'qrl_sessionid'
@@ -38,20 +38,20 @@ $fna = $fn . 'ans';
 $t = 0;
 while ((!file_exists($fna)) && ($t < 50))
 {
-    $t++;
-    usleep(100000);
+	$t++;
+	usleep(100000);
 }
 
 // exists answer !
 if (file_exists($fna))
 {
-    var_dump(http_response_code(file_get_contents($fna)));
-    unlink($fna);
+	var_dump(http_response_code(file_get_contents($fna)));
+	unlink($fna);
 }
 
 // if file with data exists (((
 if (file_exists($fn))
 {
-    file_put_contents($fn, 0);
-    unlink($fn);
+	file_put_contents($fn, 0);
+	unlink($fn);
 }
