@@ -6,6 +6,7 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
+define('IN_PHPBB', true);
 
 // set error in answer - default !!
 http_response_code(400);

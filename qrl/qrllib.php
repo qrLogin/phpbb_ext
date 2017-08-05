@@ -1,5 +1,7 @@
 <?php
 
+define('IN_PHPBB', true);
+
 include "qrlib.php";
 //include "phpqrcode.php";
 
