@@ -19,7 +19,10 @@ $user->setup('ucp');
 // set file name
 $fn = "./temp/qrl_" . $user->session_id;
 // file not exists
-if(!file_exists($fn)) exit;
+if (!file_exists($fn))
+{
+	exit;
+}
 
 // get login data
 $logindata = preg_split("/=/", file_get_contents($fn));
@@ -37,7 +40,7 @@ $autologin = false;
 // do Login user
 $login = $auth->login($username, $password, $autologin);
 
-if((!empty($login) && $login['status'] == LOGIN_SUCCESS) || $user->data['user_id'] != ANONYMOUS)
+if ((!empty($login) && $login['status'] == LOGIN_SUCCESS) || $user->data['user_id'] != ANONYMOUS)
 {
 	echo '!';
 	file_put_contents($fn, 200);
