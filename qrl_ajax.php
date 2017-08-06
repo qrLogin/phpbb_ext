@@ -6,6 +6,8 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
+// set error answer
+http_response_code(400);
 /**
 * @ignore
 */
@@ -42,8 +44,9 @@ if (file_exists($fn))
 
 	if ((!empty($login) && $login['status'] == LOGIN_SUCCESS) || $user->data['user_id'] != ANONYMOUS)
 	{
+		// set response to OK for refresh page in ajax
+		http_response_code(200);
 		file_put_contents($fn, 200);
-		exit('!');
 	}
 	else
 	{
