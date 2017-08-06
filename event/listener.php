@@ -57,10 +57,9 @@ class listener implements EventSubscriberInterface
 		$this->root_path 	= $root_path;
 		$this->php_ext 		= $php_ext;
 
-
 		set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__).DIRECTORY_SEPARATOR.'../qrl');
 		include_once "qrllib.php";
-		
+
 		//$this->language->add_lang('qrlogin', 'qrlogin/qrlogin');
 	}
 
