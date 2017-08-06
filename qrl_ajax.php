@@ -6,12 +6,14 @@
 * @license http://opensource.org/licenses/gpl-2.0.php GNU General Public License v2
 *
 */
-// set error answer
-http_response_code(400);
 /**
 * @ignore
 */
 define('IN_PHPBB', true);
+
+// set error answer
+http_response_code(400);
+
 $phpbb_root_path = (defined('PHPBB_ROOT_PATH')) ? PHPBB_ROOT_PATH : '../../../';
 $phpEx = substr(strrchr(__FILE__, '.'), 1);
 require($phpbb_root_path . 'common.' . $phpEx);
