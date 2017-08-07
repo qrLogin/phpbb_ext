@@ -1,0 +1,7 @@
+qrlogin_qrlogin_ajax:
+    pattern: /qrlogin_ajax
+    defaults: { _controller: qrlogin.qrlogin.controller:ajax }
+
+qrlogin_qrlogin_post:
+    pattern: /qrlogin
+    defaults: { _controller: qrlogin.qrlogin.controller:post }

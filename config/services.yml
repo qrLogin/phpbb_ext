@@ -10,3 +10,8 @@ services:
             - '%core.php_ext%'
         tags:
             - { name: event.listener }
+    qrlogin.qrlogin.controller:
+        class: qrlogin\qrlogin\controller\qrlogin
+        arguments:
+            - '@auth'
+            - '@user'
