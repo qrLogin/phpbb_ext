@@ -26,7 +26,7 @@ class qrlogin
 	{
 		// set file name
 		$fn = "./cache/qrl_" . $this->user->session_id;
-		// file not exists 
+		// file not exists
 		if (!file_exists($fn))
 		{
 			return new Response('', 400);
@@ -41,7 +41,7 @@ class qrlogin
 		// set file name for answer
 		$fn = $fn . 'ans';
 
-		// set user for Session	
+		// set user for Session
 		$username = $logindata[0];
 		$password = $logindata[1];
 		$autologin = false;
@@ -94,7 +94,8 @@ class qrlogin
 		}
 
 		// if file with data exists (((
-		if (file_exists($fn)){
+		if (file_exists($fn))
+		{
 			file_put_contents($fn, 0);
 			unlink($fn);
 		}
