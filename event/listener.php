@@ -57,9 +57,6 @@ class listener implements EventSubscriberInterface
 		$this->root_path 	= $root_path;
 		$this->php_ext 		= $php_ext;
 
-		set_include_path(get_include_path() . PATH_SEPARATOR . dirname(__FILE__).DIRECTORY_SEPARATOR.'../qrl');
-		include_once "qrllib.php";
-
 		//$this->language->add_lang('qrlogin', 'qrlogin/qrlogin');
 	}
 
@@ -94,8 +91,16 @@ class listener implements EventSubscriberInterface
 		$pixelPerPoint = $this->config['qrlogin_qrcode_pixel_per_point'];
 		$fore_color = hexdec(ltrim($this->config['qrlogin_qrcode_fore_color'], '#'));
 		$back_color = hexdec(ltrim( $this->config['qrlogin_qrcode_back_color'], '#'));
-		// svg qrcode for login
-		$qrcode = qrLogin_code("QRLOGIN\nL:V1\n" . $forum_url . "\n" . $this->user->session_id, $pixelPerPoint, $fore_color, $back_color);
+		// temp file for qrcode
+		$tmpfile = 'qr_temp' . mt_rand(0, 100000);
+		// string for qrcode
+		$qrdata = "QRLOGIN\nL:V1\n" . $forum_url . "\n" . $this->user->session_id;
+		// generate svg qrcode
+		\QRcode::svg($qrdata, $tmpfile, 1, $pixelPerPoint, 1, false, $back_color, $fore_color);
+		// get qrcode from file
+		$qrcode = file_get_contents($tmpfile);
+		// delete temp file
+		unlink($tmpfile);
 
 		$this->template->assign_vars(array(
 			'QRCODE_LOGIN'                  => $qrcode,
