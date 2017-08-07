@@ -1,5 +1,5 @@
 function ifchanged(){
-    $.get('./ext/qrlogin/qrlogin/qrl_ajax.php', function(data){
+    $.get('./qrlogin_ajax', function(data){
 		window.location.reload(true);
     });
 }

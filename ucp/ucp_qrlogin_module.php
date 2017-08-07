@@ -42,7 +42,7 @@ class ucp_qrlogin_module
 		$back_color = hexdec(ltrim($config['qrlogin_qrcode_back_color'], '#'));
 
 		// svg qrcode for register account
-		$qrcode = qrLogin_code("QRLOGIN\nNU:V1\n" .  $forum_url . "\n/ext/qrlogin/qrlogin/qrl_post.php\n" . $user->data['username'] . "\n\n2", $pixelPerPoint, $fore_color, $back_color);
+		$qrcode = qrLogin_code("QRLOGIN\nNU:V1\n" .  $forum_url . "\n/qrlogin\n" . $user->data['username'] . "\n\n2", $pixelPerPoint, $fore_color, $back_color);
 
 		$template->assign_vars(array(
 			'QRCODE_REGISTER'   => $qrcode
