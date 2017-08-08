@@ -1,4 +1,4 @@
-# Set qrLogin extension
+﻿# qrLogin extension
 
 [![Build Status](https://travis-ci.org/qrLogin/phpbb_ext.svg?branch=master)](https://travis-ci.org/qrLogin/phpbb_ext)
 
@@ -8,7 +8,7 @@
 2. Unzip the downloaded release, and change the name of the folder to `qrlogin`.
 3. In the `ext` directory of your phpBB board, create a new directory named `qrlogin` (if it does not already exist).
 4. Copy the `qrlogin` folder to `/ext/qrlogin/` (if done correctly, you'll have the main extension class at (your forum root)/ext/qrlogin/qrlogin/composer.json).
-5. Do command 'php ../composer.phar install' for download lib.
+5. Do command `php ../composer.phar install` for download lib.
 6. Navigate in the ACP to `Customise -> Manage extensions`.
 7. Look for `qrLogin` under the Disabled Extensions list, and click its `Enable` link.
 
