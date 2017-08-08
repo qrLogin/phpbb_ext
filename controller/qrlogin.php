@@ -22,31 +22,43 @@ class qrlogin
 		$this->user = $user;
 	}
 
+	private function get_file_name($data)
+	{
+		return  './ext/qrlogin/qrlogin/temp/' . hash('md5', 'qrlogin' . $data);
+	}
+
+	private function file_get_contents_and_delete($fname)
+	{
+		$content = file_get_contents($fname);
+		file_put_contents($fname, 0);
+		unlink($fname);
+		return $content;
+	}
+
 	public function ajax()
 	{
-		// set file name
-		$fn = "./cache/qrl_" . $this->user->session_id;
+		// set file names
+		$fname_req = $this->get_file_name($this->user->session_id);
+		$fname_ans = $this->get_file_name($fname_req);
+
 		// file not exists
-		if (!file_exists($fn))
+		if (!file_exists($fname_req))
 		{
 			return new Response('', 400);
 		}
 
 		// get login data
-		$logindata = preg_split("/=/", file_get_contents($fn));
-		// delete file
-		file_put_contents($fn, 0);
-		unlink($fn);
+		$post = $this->file_get_contents_and_delete($fname_req);
+		$postdata = json_decode($post, true);
 
-		// set file name for answer
-		$fn = $fn . 'ans';
+		// if data not correct
+		if (($postdata['objectName'] != 'qrLogin') || (urldecode($postdata['sessionid']) != $this->user->session_id))
+		{
+			return new Response('', 400);
+		}
 
-		// set user for Session
-		$username = $logindata[0];
-		$password = $logindata[1];
-		$autologin = false;
 		// do Login user
-		$login = $this->auth->login($username, $password, $autologin);
+		$login = $this->auth->login(urldecode($postdata['login']), urldecode($postdata['password']), false);
 
 		$res = 403;
 		if ((!empty($login) && $login['status'] == LOGIN_SUCCESS) || $this->user->data['user_id'] != ANONYMOUS)
@@ -55,57 +67,48 @@ class qrlogin
 			$res = 200;
 		}
 
-		file_put_contents($fn, $res);
+		file_put_contents($fname_ans, $res);
 		return new Response('', $res);
 	}
 
 	public function post()
 	{
 		// get JSON from POST
-		$postdata = json_decode(file_get_contents('php://input'), true);
+		$post = file_get_contents('php://input');
+		$postdata = json_decode($post, true);
 
 		// if data not correct
-		if ($postdata['objectName'] != 'qrLogin')
+		if (($postdata['objectName'] != 'qrLogin') || empty(urldecode($postdata['sessionid'])) || empty(urldecode($postdata['login'])) || empty(urldecode($postdata['password'])))
 		{
 			return new Response('', 400);
 		}
 
-		$sessionid = urldecode($postdata['sessionid']);
-		$username = urldecode($postdata['login']);
-		$password = urldecode($postdata['password']);
-
-		// if data not correct
-		if (empty($sessionid) or empty($username) or empty($password))
-		{
-			return new Response('', 400);
-		}
-
-		// save login to file with name 'qrl_sessionid'
-		$fn = "./cache/qrl_" . $sessionid;
-		file_put_contents($fn, $username . '=' . $password);
+		// set file names
+		$fname_req = $this->get_file_name(urldecode($postdata['sessionid']));
+		$fname_ans = $this->get_file_name($fname_req);
+	
+		// save login data to file req
+		file_put_contents($fname_req, $post);
 
 		// waiting for answer - max 50*100ms = 5s
-		$fna = $fn . 'ans';
 		$t = 0;
-		while ((!file_exists($fna)) && ($t < 50))
+		while ((!file_exists($fname_ans)) && ($t < 50))
 		{
 			$t++;
 			usleep(100000);
 		}
 
 		// if file with data exists (((
-		if (file_exists($fn))
+		if (file_exists($fname_req))
 		{
-			file_put_contents($fn, 0);
-			unlink($fn);
+			$this->file_get_contents_and_delete($fname_req);
 		}
 
 		$ans = 403;
 		// exists answer !
-		if (file_exists($fna))
+		if (file_exists($fname_ans))
 		{
-			$ans = file_get_contents($fna);
-			unlink($fna);
+			$ans = $this->file_get_contents_and_delete($fname_ans);
 		}
 		return new Response('', $ans);
 	}

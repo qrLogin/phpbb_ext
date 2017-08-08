@@ -22,42 +22,22 @@ class listener implements EventSubscriberInterface
 	/** @var \phpbb\user */
 	protected $user;
 
-	/** @var \phpbb\language\language */
-	protected $language;
-
-	/** @var string */
-	protected $root_path;
-
-	/** @var string */
-	protected $php_ext;
-
 	/**
 	* Constructor
 	*
 	* @param \phpbb\config\config       $config
 	* @param \phpbb\template\template	$template
 	* @param \phpbb\user				$user
-	* @param \phpbb\language\language	$language
-	* @param string					    $root_path
-	* @param string					    $php_ext
 	*/
 	public function __construct(
 		\phpbb\config\config $config,
 		\phpbb\template\template $template,
-		\phpbb\user $user,
-		\phpbb\language\language $language,
-		$root_path,
-		$php_ext
+		\phpbb\user $user
 	)
 	{
 		$this->config       = $config;
 		$this->template 	= $template;
 		$this->user 		= $user;
-		$this->language		= $language;
-		$this->root_path 	= $root_path;
-		$this->php_ext 		= $php_ext;
-
-		//$this->language->add_lang('qrlogin', 'qrlogin/qrlogin');
 	}
 
 	static public function getSubscribedEvents()
