@@ -86,7 +86,7 @@ class qrlogin
 		// set file names
 		$fname_req = $this->get_file_name(urldecode($postdata['sessionid']));
 		$fname_ans = $this->get_file_name($fname_req);
-	
+
 		// save login data to file req
 		file_put_contents($fname_req, $post);
 
