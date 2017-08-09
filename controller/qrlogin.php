@@ -21,7 +21,7 @@ class qrlogin
 		$this->auth = $auth;
 		$this->user = $user;
 	}
-	
+
 	private function get_key($data)
 	{
 		return hexdec(hash("crc32", 'qrlogin' . $data));
