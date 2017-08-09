@@ -21,44 +21,76 @@ class qrlogin
 		$this->auth = $auth;
 		$this->user = $user;
 	}
-
-	private function get_file_name($data)
+	
+	private function get_key($data)
 	{
-		return  './ext/qrlogin/qrlogin/temp/' . hash('md5', 'qrlogin' . $data);
+		return hexdec(hash("crc32", 'qrlogin' . $data));
 	}
 
-	private function file_get_contents_and_delete($fname)
+	private function read_key($key)
 	{
-		$content = file_get_contents($fname);
-		file_put_contents($fname, 0);
-		unlink($fname);
-		return $content;
+		try
+		{
+			if (!$shm_id = shmop_open($key, "w", 0644, 0))
+			{
+				return;
+			}
+			else
+			{
+				$key_data = shmop_read($shm_id, 0, shmop_size($shm_id));
+				if (!shmop_delete($shm_id))
+				{
+					error_log("can`t delete SHMOD.", 0);
+				}
+				shmop_close($shm_id);
+				return $key_data;
+			}
+		}
+		catch (Exception $e)
+		{
+			error_log('Exception SHMOD read_key: ' . $e->getMessage(), 0);
+			return;
+		}
+	}
+
+	private function write_key($key, $data)
+	{
+		if (!$shm_id = shmop_open($key, "c", 0644, strlen($data)))
+		{
+			error_log("key not available! " . $key, 0);
+			return false;
+		}
+
+		if (shmop_write($shm_id, $data, 0) != strlen($data))
+		{
+			error_log("Can`t write all data", 0);
+			shmop_delete($shm_id);
+			shmop_close($shm_id);
+			return false;
+		}
+
+		shmop_close($shm_id);
+		return true;
 	}
 
 	public function ajax()
 	{
-		// set file names
-		$fname_req = $this->get_file_name($this->user->session_id);
-		$fname_ans = $this->get_file_name($fname_req);
+		// set KEYs
+		$key_req = $this->get_key($this->user->session_id);
+		$key_ans = $this->get_key(hash('md5', $this->user->session_id));
 
-		// file not exists
-		if (!file_exists($fname_req))
+		// read key data
+		if (!$keydata = $this->read_key($key_req))
 		{
+			// key not exists
 			return new Response('', 400);
 		}
 
 		// get login data
-		$post = $this->file_get_contents_and_delete($fname_req);
-		$postdata = json_decode($post, true);
-
-		// if data not correct
-		if (($postdata['objectName'] != 'qrLogin') || (urldecode($postdata['sessionid']) != $this->user->session_id))
-		{
-			return new Response('', 400);
-		}
+		$logindata = json_decode($keydata, true);
 
 		// do Login user
-		$login = $this->auth->login(urldecode($postdata['login']), urldecode($postdata['password']), false);
+		$login = $this->auth->login(urldecode($logindata['login']), urldecode($logindata['password']), false);
 
 		$res = 403;
 		if ((!empty($login) && $login['status'] == LOGIN_SUCCESS) || $this->user->data['user_id'] != ANONYMOUS)
@@ -67,49 +99,50 @@ class qrlogin
 			$res = 200;
 		}
 
-		file_put_contents($fname_ans, $res);
+		$this->write_key($key_ans, $res);
 		return new Response('', $res);
 	}
 
 	public function post()
 	{
 		// get JSON from POST
-		$post = file_get_contents('php://input');
-		$postdata = json_decode($post, true);
+		$postdata = json_decode(file_get_contents('php://input'), true);
 
 		// if data not correct
-		if (($postdata['objectName'] != 'qrLogin') || empty(urldecode($postdata['sessionid'])) || empty(urldecode($postdata['login'])) || empty(urldecode($postdata['password'])))
+		if (($postdata['objectName'] != 'qrLogin') || empty($postdata['sessionid']) || empty($postdata['login']) || empty($postdata['password']))
 		{
 			return new Response('', 400);
 		}
 
-		// set file names
-		$fname_req = $this->get_file_name(urldecode($postdata['sessionid']));
-		$fname_ans = $this->get_file_name($fname_req);
+		// set KEYs
+		$key_req = $this->get_key(urldecode($postdata['sessionid']));
+		$key_ans = $this->get_key(hash('md5', urldecode($postdata['sessionid'])));
+
+		// delete from JSON
+		unset($postdata['objectName'], $postdata['sessionid']);
 
 		// save login data to file req
-		file_put_contents($fname_req, $post);
+		if (!$this->write_key($key_req, json_encode($postdata)))
+		{
+			return new Response('', 400);
+		};
 
 		// waiting for answer - max 50*100ms = 5s
 		$t = 0;
-		while ((!file_exists($fname_ans)) && ($t < 50))
+		while ((!($ans = $this->read_key($key_ans))) && ($t < 50))
 		{
 			$t++;
 			usleep(100000);
 		}
-
-		// if file with data exists (((
-		if (file_exists($fname_req))
+		// if not exists answer !
+		if (!$ans)
 		{
-			$this->file_get_contents_and_delete($fname_req);
+			$ans = 403;
 		}
 
-		$ans = 403;
-		// exists answer !
-		if (file_exists($fname_ans))
-		{
-			$ans = $this->file_get_contents_and_delete($fname_ans);
-		}
+		// if key with data exists (((
+		$this->read_key($key_req);
+
 		return new Response('', $ans);
 	}
 }
