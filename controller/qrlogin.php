@@ -75,6 +75,11 @@ class qrlogin
 
 	public function ajax()
 	{
+		if (!extension_loaded('shmop'))
+		{
+			return new Response('', 400);
+		}
+
 		// set KEYs
 		$key_req = $this->get_key($this->user->session_id);
 		$key_ans = $this->get_key(hash('md5', $this->user->session_id));
@@ -105,6 +110,11 @@ class qrlogin
 
 	public function post()
 	{
+		if (!extension_loaded('shmop'))
+		{
+			return new Response('', 400);
+		}
+
 		// get JSON from POST
 		$postdata = json_decode(file_get_contents('php://input'), true);
 

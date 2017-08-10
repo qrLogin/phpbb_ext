@@ -71,16 +71,23 @@ class listener implements EventSubscriberInterface
 		$pixelPerPoint = $this->config['qrlogin_qrcode_pixel_per_point'];
 		$fore_color = hexdec(ltrim($this->config['qrlogin_qrcode_fore_color'], '#'));
 		$back_color = hexdec(ltrim( $this->config['qrlogin_qrcode_back_color'], '#'));
-		// temp file for qrcode
-		$tmpfile = 'qr_temp' . mt_rand(0, 100000);
 		// string for qrcode
 		$qrdata = "QRLOGIN\nL:V1\n" . $forum_url . "\n" . $this->user->session_id;
-		// generate svg qrcode
-		\QRcode::svg($qrdata, $tmpfile, 1, $pixelPerPoint, 1, false, $back_color, $fore_color);
-		// get qrcode from file
-		$qrcode = file_get_contents($tmpfile);
-		// delete temp file
-		unlink($tmpfile);
+		if (class_exists('QRcode'))
+		{
+			// temp file for qrcode
+			$tmpfile = 'qr_temp' . mt_rand(0, 100000);
+			// generate svg qrcode
+			\QRcode::svg($qrdata, $tmpfile, 1, $pixelPerPoint, 1, false, $back_color, $fore_color);
+			// get qrcode from file
+			$qrcode = file_get_contents($tmpfile);
+			// delete temp file
+			unlink($tmpfile);
+		}
+		else
+		{
+			$qrcode = '<img src="https://chart.googleapis.com/chart?cht=qr&chs=100x100&chl=' . urlencode($qrdata) . '" border="0">';
+		}
 
 		$this->template->assign_vars(array(
 			'QRCODE_LOGIN'                  => $qrcode,
@@ -90,6 +97,7 @@ class listener implements EventSubscriberInterface
 			'QRLOGIN_FIXED_COLOR'           => $this->config['qrlogin_fixed_color'],
 			'QRLOGIN_HEADER_VIEW'           => $this->config['qrlogin_header_view'],
 			'QRLOGIN_HEADER_TOP_PADDING'    => $this->config['qrlogin_header_top_padding'],
+			'S_SHMOP'						=> extension_loaded('shmop') ? 1 : 0,
 		));
 	}
 }

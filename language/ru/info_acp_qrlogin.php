@@ -41,6 +41,10 @@ $lang = array_merge(
 	$lang, array(
 		'ACP_QRLOGIN'                               => 'qrLogin',
 		'QRLOGIN_SETTING'                           => 'qrLogin настройки',
+		'SHMOP_NOT_INSTALL'                         => '<<< qrLogin не работает!!! >>><br/><<< Библиотека "Управление разделяемой памятью PHP" (<a href=http://php.net/manual/ru/book.shmop.php>shmop</a>) не установлена >>>',
+		'SHMOP_NOT_INSTALL_EXPLAIN'                 => 'Shmop является стандартной библиотекой PHP. Обратитесь к системному администратору для ее подключения.',
+		'QRCODE_NOT_INSTALL'                        => '<<< Библиотека QRCODE не установлена!!! >>><br/>qrLogin использует Google Api для показа qrcode - только черно/белый и с полем вокруг((',
+		'QRCODE_NOT_INSTALL_EXPLAIN'                => 'Установите библиотеку или выполнив команду composer для автоматической загрузки, или загрузите архив с нашего сайта и убедитесь, что в нем есть папка VENDOR. <br/>После установки ОБЯЗАТЕЛЬНО очистить кеш!',
 		'QRLOGIN_QRCODE_HEADER'						=> 'Параметры QRCODE',
 		'QRLOGIN_DEL_HTTP'							=> 'Удалять http, https и www из идентификатора',
 		'QRLOGIN_DEL_HTTP_EXPLAIN'                  => 'Рекомендуем использовать эту опцию. Тогда в качестве идентификатора для программы qrLogin будет использоваться только домен и путь к Вашему форуму.',

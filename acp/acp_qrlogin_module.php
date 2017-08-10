@@ -58,6 +58,8 @@ class acp_qrlogin_module
 			'qrlogin_fixed_color' => $config['qrlogin_fixed_color'],
 			'qrlogin_header_view' => $config['qrlogin_header_view'],
 			'qrlogin_header_top_padding' => $config['qrlogin_header_top_padding'],
+			'S_SHMOP' => extension_loaded('shmop') ? 1 : 0,
+			'S_QRCODE_CLASS' => class_exists('QRcode') ? 1 : 0,
 			'U_ACTION' => $this->u_action,
 		));
 	}

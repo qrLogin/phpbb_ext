@@ -1,4 +1,4 @@
-<!-- IF QRLOGIN_NAVBAR_VIEW -->
+<!-- IF S_SHMOP and QRLOGIN_NAVBAR_VIEW -->
     <li class="rightside" data-skip-responsive="true">
         <div class="header-profile dropdown-container">
             <a href="#" class="dropdown-trigger">
@@ -12,8 +12,8 @@
             </div>
         </div>
     </li>
-<!-- ENDIF -->
-<!-- IF not $INCLUDED_JQUERY_QR -->
-    <!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ajax.js -->
-    <!-- DEFINE $INCLUDED_JQUERY_QR = true -->
+	<!-- IF not $INCLUDED_JQUERY_QR -->
+		<!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ajax.js -->
+		<!-- DEFINE $INCLUDED_JQUERY_QR = true -->
+	<!-- ENDIF -->
 <!-- ENDIF -->

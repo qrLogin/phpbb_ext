@@ -6,6 +6,16 @@
     </a>
     {L_QRLOGIN_SETTING}
 </h1>
+<!-- IF not S_SHMOP -->
+	<div class="errorbox">
+		<span>{L_SHMOP_NOT_INSTALL}</span><p><br />{L_SHMOP_NOT_INSTALL_EXPLAIN}</p>
+	</div>
+<!-- ENDIF -->
+<!-- IF not S_QRCODE_CLASS -->
+	<div class="errorbox">
+		<span>{L_QRCODE_NOT_INSTALL}</span><p><br />{L_QRCODE_NOT_INSTALL_EXPLAIN}</p>
+	</div>
+<!-- ENDIF -->
 <form id="acp_board" method="post" action="{U_ACTION}">
     <fieldset>
         <legend>{L_QRLOGIN_QRCODE_HEADER}</legend>

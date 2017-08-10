@@ -41,6 +41,10 @@ $lang = array_merge(
 	$lang, array(
 		'ACP_QRLOGIN'								=> 'qrLogin',
 		'QRLOGIN_SETTING'							=> 'qrLogin settings',
+		'SHMOP_NOT_INSTALL'                         => '<<< qrLogin does not work !!! >>> <br/> <<< Library "Shared Memory PHP" (<a href = http://php.net/manual/en/book.shmop.php> shmop </a>) is not installed >> >',
+		'SHMOP_NOT_INSTALL_EXPLAIN'                 => 'Shmop is a standard PHP library. Contact your system administrator to enable it.',
+		'QRCODE_NOT_INSTALL'                        => '<<< QRCODE library is not installed !!! >>> <br/> qrLogin uses Google Api to display qrcode - only black / white and with a field around ((',
+		'QRCODE_NOT_INSTALL_EXPLAIN'                => 'Install the library or by executing the composer command to automatically download, or download the archive from our site and make sure that it contains the VENDOR folder.<br/>After installation, it is MANDATORY to clear the cache!',
 		'QRLOGIN_QRCODE_HEADER'						=> 'Settings qrcode',
 		'QRLOGIN_DEL_HTTP'                          => 'Delete http, https & www from identifier',
 		'QRLOGIN_DEL_HTTP_EXPLAIN'					=> 'We recommend using this option. Then, as the identifier for qrLogin, only the domain and path to your forum are used.',
