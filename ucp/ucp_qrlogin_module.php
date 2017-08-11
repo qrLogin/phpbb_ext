@@ -19,7 +19,7 @@ class ucp_qrlogin_module
 
 	public function main($id, $mode)
 	{
-		global $user, $template, $config;
+		global $user, $template, $request, $config;
 
 		// Set desired template
 		$this->tpl_name   = 'ucp_qrlogin_body';
