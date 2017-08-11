@@ -24,6 +24,11 @@
             <dd><input type="radio" class="radio" name="qrlogin_del_http" value="1" <!-- IF qrlogin_del_http -->checked="checked" <!-- ENDIF -->/> {L_YES} &nbsp;
                 <input type="radio" class="radio" name="qrlogin_del_http" value="0" <!-- IF not qrlogin_del_http -->checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
         </dl>
+		<hr />
+		<dl>
+			<dt><label for="qrlogin_timeout">{L_QRLOGIN_TIMEOUT}{L_COLON}</label><br /><span>{L_QRLOGIN_TIMEOUT_EXPLAIN}</span></dt>
+			<dd><input name="qrlogin_timeout" type="number" id="qrlogin_timeout" value="{{ qrlogin_timeout }}" min="1" max="50" /> *100ms</dd>
+		</dl>
         <hr />
         <dl>
 			<dt><label for="qrlogin_qrcode_pixel_per_point">{L_QRLOGIN_QRCODE_PIXEL_PER_POINT}{L_COLON}</label><br /><span>{L_QRLOGIN_QRCODE_PIXEL_PER_POINT_EXPLAIN}</span></dt>

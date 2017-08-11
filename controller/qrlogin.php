@@ -29,6 +29,7 @@ class qrlogin
 
 	private function read_key($key)
 	{
+		error_reporting(0);
 		try
 		{
 			if (!$shm_id = shmop_open($key, "w", 0644, 0))
@@ -55,6 +56,7 @@ class qrlogin
 
 	private function write_key($key, $data)
 	{
+		error_reporting(0);
 		if (!$shm_id = shmop_open($key, "c", 0644, strlen($data)))
 		{
 			error_log("key not available! " . $key, 0);

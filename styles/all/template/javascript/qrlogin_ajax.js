@@ -6,5 +6,5 @@ function ifchanged(){
 
 $(document).ready(function(){
     ifchanged();
-    setInterval('ifchanged()', 500);
+    setInterval('ifchanged()', qrLogin_TimeOut);
 });

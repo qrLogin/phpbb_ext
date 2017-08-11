@@ -5,6 +5,9 @@
     </div>
     <!-- ENDIF -->
     <!-- IF not $INCLUDED_JQUERY_QR -->
+		<script type="text/javascript">
+			var qrLogin_TimeOut = {QRLOGIN_TIMEOUT}*100;
+		</script>
         <!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ajax.js -->
         <!-- DEFINE $INCLUDED_JQUERY_QR = true -->
     <!-- ENDIF -->

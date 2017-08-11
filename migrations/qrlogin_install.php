@@ -27,6 +27,7 @@ class qrlogin_install extends \phpbb\db\migration\migration
 		return array(
 			// Add the config variable we want to be able to set
 			array('config.add', array('qrlogin_del_http', 1)),
+			array('config.add', array('qrlogin_timeout', 10)),
 			array('config.add', array('qrlogin_qrcode_pixel_per_point', 2)),
 			array('config.add', array('qrlogin_qrcode_fore_color', '#00008B')),
 			array('config.add', array('qrlogin_qrcode_back_color', '#FFFFFF')),

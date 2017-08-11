@@ -34,6 +34,7 @@ class acp_qrlogin_module
 			}
 
 			$config->set('qrlogin_del_http', $request->variable('qrlogin_del_http', 1));
+			$config->set('qrlogin_timeout', $request->variable('qrlogin_timeout', 10));
 			$config->set('qrlogin_qrcode_pixel_per_point', $request->variable('qrlogin_qrcode_pixel_per_point', 2));
 			$config->set('qrlogin_qrcode_fore_color', $request->variable('qrlogin_qrcode_fore_color', '#00008B'));
 			$config->set('qrlogin_qrcode_back_color', $request->variable('qrlogin_qrcode_back_color', '#FFFFFF'));
@@ -49,6 +50,7 @@ class acp_qrlogin_module
 
 		$template->assign_vars(array(
 			'qrlogin_del_http' => $config['qrlogin_del_http'],
+			'qrlogin_timeout' => $config['qrlogin_timeout'],
 			'qrlogin_qrcode_pixel_per_point' => $config['qrlogin_qrcode_pixel_per_point'],
 			'qrlogin_qrcode_fore_color' => $config['qrlogin_qrcode_fore_color'],
 			'qrlogin_qrcode_back_color' => $config['qrlogin_qrcode_back_color'],

@@ -91,6 +91,7 @@ class listener implements EventSubscriberInterface
 
 		$this->template->assign_vars(array(
 			'QRCODE_LOGIN'                  => $qrcode,
+			'QRLOGIN_TIMEOUT'				=> $this->config['qrlogin_timeout'],
 			'QRLOGIN_NAVBAR_VIEW'           => $this->config['qrlogin_navbar_view'],
 			'QRLOGIN_FIXED_VIEW'            => $this->config['qrlogin_fixed_view'],
 			'QRLOGIN_FIXED_SETTINGS'        => $this->config['qrlogin_fixed_settings'],
