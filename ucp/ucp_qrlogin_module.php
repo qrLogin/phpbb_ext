@@ -64,7 +64,7 @@ class ucp_qrlogin_module
 		}
 
 		$template->assign_vars(array(
-			'QRCODE_REGISTER'   => $qrcode
+			'QRCODE_REGISTER'   => $qrcode,
 			'CUR_PASSWORD'		=> $cur_password,
 			'S_UCP_ACTION'		=> $this->u_action
 		));
