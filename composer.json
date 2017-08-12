@@ -3,8 +3,8 @@
     "type": "phpbb-extension",
     "description": "With this extension you can login to forum width qrLogin.",
     "homepage": "http://qrlogin.info",
-    "version": "0.9.3",
-    "time": "2017-08-11",
+    "version": "1.0.0",
+    "time": "2017-08-12",
     "keywords": [
         "phpbb",
         "extension",
