@@ -24,7 +24,7 @@ class acp_qrlogin_module
 		$this->tpl_name = 'acp_qrlogin_body';
 		$this->page_title	= $phpbb_container->get('language')->lang('QRLOGIN_SETTING');
 
-		add_form_key('qrlogin_settings'); 
+		add_form_key('qrlogin_settings');
 
 		if ($request->is_set_post('submit'))
 		{
