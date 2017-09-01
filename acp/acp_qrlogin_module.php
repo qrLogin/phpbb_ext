@@ -26,8 +26,7 @@ class acp_qrlogin_module
 
 		add_form_key('qrlogin_settings'); 
 
-	 	if ($request->is_set_post('submit'))
-		{
+	 	if ($request->is_set_post('submit'))		{
 			if (!check_form_key('qrlogin_settings'))
 			{
 				trigger_error('FORM_INVALID');
