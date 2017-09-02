@@ -57,7 +57,7 @@ class listener implements EventSubscriberInterface
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
-
+	
 	public function get_qrcode($event)
 	{
 		$forum_url = generate_board_url();
@@ -72,13 +72,13 @@ class listener implements EventSubscriberInterface
 		$fore_color = hexdec(ltrim($this->config['qrlogin_qrcode_fore_color'], '#'));
 		$back_color = hexdec(ltrim( $this->config['qrlogin_qrcode_back_color'], '#'));
 		// string for qrcode
-		$qrdata = "QRLOGIN\nL:V1\n" . $forum_url . "\n" . $this->user->session_id;
+		$qrtext = "QRLOGIN\nL:V1\n" . $forum_url . "\n" . $this->user->session_id;
 		if (class_exists('QRcode'))
 		{
 			// temp file for qrcode
 			$tmpfile = 'qr_temp' . mt_rand(0, 100000);
 			// generate svg qrcode
-			\QRcode::svg($qrdata, $tmpfile, 1, $pixelPerPoint, 1, false, $back_color, $fore_color);
+			\QRcode::svg($qrtext, $tmpfile, 1, $pixelPerPoint, 1, false, $back_color, $fore_color);
 			// get qrcode from file
 			$qrcode = file_get_contents($tmpfile);
 			// delete temp file
@@ -86,19 +86,23 @@ class listener implements EventSubscriberInterface
 		}
 		else
 		{
-			$qrcode = '<img src="https://chart.googleapis.com/chart?cht=qr&chs=100x100&chl=' . urlencode($qrdata) . '" border="0">';
+			$qrcode = '<img src="https://chart.googleapis.com/chart?cht=qr&chs=100x100&chl=' . urlencode($qrtext) . '" border="0">';
 		}
+		global $helper;
+		$qrlink = "qrlogin://" . str_replace("\n", "%0A", $qrtext) . "qrlogin://" . urlencode(generate_board_url() . '/' . $this->user->page['page']);
 
 		$this->template->assign_vars(array(
 			'QRCODE_LOGIN'                  => $qrcode,
-			'QRLOGIN_TIMEOUT'				=> $this->config['qrlogin_timeout'],
 			'QRLOGIN_NAVBAR_VIEW'           => $this->config['qrlogin_navbar_view'],
 			'QRLOGIN_FIXED_VIEW'            => $this->config['qrlogin_fixed_view'],
 			'QRLOGIN_FIXED_SETTINGS'        => $this->config['qrlogin_fixed_settings'],
 			'QRLOGIN_FIXED_COLOR'           => $this->config['qrlogin_fixed_color'],
 			'QRLOGIN_HEADER_VIEW'           => $this->config['qrlogin_header_view'],
 			'QRLOGIN_HEADER_TOP_PADDING'    => $this->config['qrlogin_header_top_padding'],
-			'S_SHMOP'						=> extension_loaded('shmop') ? 1 : 0,
+			'S_SHMOP'						=> (extension_loaded( 'sysvmsg' ) || extension_loaded( 'sysvshm' ) || extension_loaded( 'shmop' )) ? 1 : 0,
+			'S_QRLOGIN_LINK'				=> $qrlink,
+			'QRLOGIN_TIMEOUT'               => $this->config['qrlogin_timeout'],
+			'QRLOGIN_LOGIN_TIMEOUT'         => $this->config['qrlogin_login_timeout'],
 		));
 	}
 }

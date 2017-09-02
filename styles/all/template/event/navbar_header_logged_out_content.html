@@ -1,18 +1,22 @@
 <!-- IF S_SHMOP and QRLOGIN_NAVBAR_VIEW -->
     <li class="rightside" data-skip-responsive="true">
         <div class="header-profile dropdown-container">
-            <a href="#" class="dropdown-trigger">
-			    <i class="icon fa-power-off fa-fw" aria-hidden="true"></i><span>qrLogin</span>
+            <a href="#" class="dropdown-trigger" onclick=qrlogin_onclick()>
+			    <i class="icon fa-qrcode fa-fw" aria-hidden="true"></i><span>qrLogin</span>
     		</a>
-            <div class="dropdown">
+            <div id="qrlogin_dropdown" class="dropdown">
                 <div class="pointer"><div class="pointer-inner"></div></div>
-                <ul class="dropdown-contents" >
-                    <a href="http://qrlogin.info" title="{L_SCAN_QRLOGIN}" style="padding: 0">{QRCODE_LOGIN}</a>
+                <ul class="dropdown-contents">
+                    <a href="{S_QRLOGIN_LINK}" title="{L_SCAN_QRLOGIN}" style="padding:0; margin:0">{QRCODE_LOGIN}</a> 
                 </ul>
             </div>
         </div>
     </li>
 	<!-- IF not $INCLUDED_JQUERY_QR -->
+        <script type="text/javascript">
+            var qrLogin_TimeOut = {QRLOGIN_TIMEOUT}*100;
+            var qrlogin_login_TimeOut = {QRLOGIN_LOGIN_TIMEOUT}*60000;
+        </script>
 		<!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ajax.js -->
 		<!-- DEFINE $INCLUDED_JQUERY_QR = true -->
 	<!-- ENDIF -->

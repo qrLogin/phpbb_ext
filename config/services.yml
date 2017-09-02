@@ -10,5 +10,6 @@ services:
     qrlogin.qrlogin.controller:
         class: qrlogin\qrlogin\controller\qrlogin
         arguments:
+            - '@config'
             - '@auth'
             - '@user'

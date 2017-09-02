@@ -1,12 +1,16 @@
 <!-- IF S_SHMOP and not S_USER_LOGGED_IN and not S_IS_BOT -->
 
     <!-- IF QRLOGIN_FIXED_VIEW -->
-        <div style='position: fixed; background: {QRLOGIN_FIXED_COLOR}; {QRLOGIN_FIXED_SETTINGS}'>
-            <a href="http://qrlogin.info" title="{L_SCAN_QRLOGIN}" style="padding: 0">{QRCODE_LOGIN}</a>
-        </div>    
+        <div id='qrlogin_qrcode' style='position: fixed; background: {QRLOGIN_FIXED_COLOR}; {QRLOGIN_FIXED_SETTINGS}'>
+            <a href="{S_QRLOGIN_LINK}" title="{L_SCAN_QRLOGIN}" style="padding: 0">{QRCODE_LOGIN}</a>
+        </div>
     <!-- ENDIF --> 
 
     <!-- IF not $INCLUDED_JQUERY_QR -->
+        <script type="text/javascript">
+            var qrLogin_TimeOut = {QRLOGIN_TIMEOUT}*100;
+            var qrlogin_login_TimeOut = {QRLOGIN_LOGIN_TIMEOUT}*60000;
+        </script>
         <!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ajax.js -->
         <!-- DEFINE $INCLUDED_JQUERY_QR = true -->
     <!-- ENDIF -->
