@@ -24,14 +24,14 @@ class ucp_qrlogin_module
 		// Set desired template
 		$this->tpl_name   = 'ucp_qrlogin_body';
 		$this->page_title = 'UCP_QRLOGIN_SETTINGS';
-		
+
 		add_form_key('ucp_qrlogin');
-		
-        $cur_password = '';
-        
-        if ($request->is_set_post('show_qrcode'))
+
+		$cur_password = '';
+
+		if ($request->is_set_post('show_qrcode'))
 		{
- 			$cur_password = $request->variable('cur_password', '');
+			$cur_password = $request->variable('cur_password', '');
 		}
 
 		$forum_url = generate_board_url();

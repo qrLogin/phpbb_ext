@@ -57,7 +57,7 @@ class listener implements EventSubscriberInterface
 		);
 		$event['lang_set_ext'] = $lang_set_ext;
 	}
-	
+
 	public function get_qrcode($event)
 	{
 		$forum_url = generate_board_url();
