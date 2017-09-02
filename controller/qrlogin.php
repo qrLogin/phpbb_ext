@@ -94,9 +94,6 @@ class qrlogin
 
 	public function ajax()
 	{
-		// set error in answer - default !!
-		http_response_code(400);
-
 		// set KEYs
 		$key_req = $this->get_key($this->user->session_id);
 		$key_ans = $this->get_key(hash('md5', $this->user->session_id));
@@ -105,14 +102,14 @@ class qrlogin
 		{
 			if ( !msg_queue_exists ( $key_req ))
 			{
-				exit;
+				return new Response('', 400);
 			}
 			// create queue
 			$queue = msg_get_queue($key_req);
 			// read data
 			if (!msg_receive ($queue, 1, $msg_type, 1024, $keydata, true, MSG_IPC_NOWAIT))
 			{
-				exit;
+				return new Response('', 400);
 			}
 			// error_log("keydata msg " . $keydata, 0);
 
@@ -124,11 +121,11 @@ class qrlogin
 		{
 			if (!$shm = shm_attach ( $this->get_key('qrlogin') ))
 			{
-				exit;
+				return new Response('', 400);
 			}
 			if ( !shm_has_var ( $shm , $key_req ))
 			{
-				exit;
+				return new Response('', 400);
 			}
 			// read data
 			$keydata = shm_get_var ( $shm , $key_req );
@@ -143,7 +140,7 @@ class qrlogin
 			// read key data
 			if ( !$keydata = $this->read_key($key_req) )
 			{
-				exit;
+				return new Response('', 400);
 			}
 			// error_log("keydata shmob " . $keydata, 0);
 
@@ -151,23 +148,18 @@ class qrlogin
 
 			$this->write_key($key_ans, $res);
 		}
-
-		http_response_code($res);
-		exit;
+		return new Response('', $res);
 	}
 
 	public function post()
 	{
-		// set error in answer - default !!
-		http_response_code(400);
-
 		// get JSON from POST
 		$postdata = json_decode(file_get_contents('php://input'), true);
 
 		// if data not correct
 		if (($postdata['objectName'] != 'qrLogin') || empty($postdata['sessionid']) || empty($postdata['login']) || empty($postdata['password']))
 		{
-			exit;
+			return new Response('', 400);
 		}
 
 		// set KEYs
@@ -184,7 +176,7 @@ class qrlogin
 			// send login data
 			if (!msg_send($queue, 1, json_encode($postdata)))
 			{
-				exit;
+				return new Response('', 400);
 			}
 			// waiting for answer - max qrlogin_post_timeout s
 			while (!msg_receive ($queue, 2, $msg_type, 16, $ans, true, MSG_IPC_NOWAIT) && ($post_timeout > 0))
@@ -199,12 +191,12 @@ class qrlogin
 		{
 			if (!$shm = shm_attach ( $this->get_key('qrlogin') ))
 			{
-				exit;
+				return new Response('', 400);
 			}
 			// save login data
 			if (!shm_put_var($shm, $key_req, json_encode($postdata)))
 			{
-				exit;
+				return new Response('', 400);
 			}
 			// waiting for answer - max qrlogin_post_timeout s
 			while ((!shm_has_var ( $shm , $key_ans )) && ($post_timeout > 0))
@@ -229,7 +221,7 @@ class qrlogin
 			// save login data
 			if ( !$this->write_key($key_req, json_encode($postdata)) )
 			{
-				exit;
+				return new Response('', 400);
 			};
 			// waiting for answer - max qrlogin_post_timeout s
 			while ((!$ans = $this->read_key($key_ans)) && ($post_timeout > 0))
@@ -246,7 +238,6 @@ class qrlogin
 			$ans = 408;
 		}
 
-		http_response_code($ans);
-		exit;
+		return new Response('', $ans);
 	}
 }
