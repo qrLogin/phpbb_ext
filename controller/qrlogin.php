@@ -75,7 +75,7 @@ class qrlogin
 		return true;
 	}
 
-	function do_login_user( $keydata )
+	function do_login_user($keydata)
 	{
 		// get login data
 		$logindata = json_decode($keydata, true);
