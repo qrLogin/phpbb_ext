@@ -22,7 +22,12 @@ class acp_qrlogin_module
 		global $phpbb_container, $template, $request, $config;
 
 		$this->tpl_name = 'acp_qrlogin_body';
-		$this->page_title	= $phpbb_container->get('language')->lang('QRLOGIN_SETTING');
+		$lang_module = 'language';
+		if ($config['version'] < 3.2)
+		{
+			$lang_module = 'user';
+		}
+		$this->page_title = $phpbb_container->get($lang_module)->lang('QRLOGIN_SETTING');
 
 		add_form_key('qrlogin_settings');
 
@@ -47,7 +52,7 @@ class acp_qrlogin_module
 			$config->set('qrlogin_header_view', $request->variable('qrlogin_header_view', 0));
 			$config->set('qrlogin_header_top_padding', $request->variable('qrlogin_header_top_padding', 0));
 
-			trigger_error($phpbb_container->get('language')->lang('ACP_QRLOGIN_SETTING_SAVED') . adm_back_link($this->u_action));
+			trigger_error($phpbb_container->get($lang_module)->lang('ACP_QRLOGIN_SETTING_SAVED') . adm_back_link($this->u_action));
 		}
 
 		$template->assign_vars(array(
