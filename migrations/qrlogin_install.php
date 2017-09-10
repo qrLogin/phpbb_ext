@@ -11,16 +11,8 @@
 
 namespace qrlogin\qrlogin\migrations;
 
-//use \phpbb\db\migration\migration;
-
 class qrlogin_install extends \phpbb\db\migration\migration
 {
-
-	/*static public function depends_on()
-	{
-		return array('\phpbb\db\migration\data\v31x\v314');
-	}*/
-
 	public function update_data()
 	{
 

@@ -88,7 +88,6 @@ class listener implements EventSubscriberInterface
 		{
 			$qrcode = '<img src="https://chart.googleapis.com/chart?cht=qr&chs=100x100&chl=' . urlencode($qrtext) . '" border="0">';
 		}
-		global $helper;
 		$qrlink = "qrlogin://" . str_replace("\n", "%0A", $qrtext) . "qrlogin://" . urlencode(generate_board_url() . '/' . $this->user->page['page']);
 
 		$this->template->assign_vars(array(

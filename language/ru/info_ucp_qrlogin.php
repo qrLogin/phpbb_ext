@@ -47,6 +47,7 @@ $lang = array_merge(
 		'SCAN_PASSWORD_EXPLAIN'	=> 'Если вы не хотите вводить пароль на телефоне, то вы должны указать текущий пароль.',
 		'SHOW_QRCODE'			=> 'Обновить QRCODE',
 		'ABOUT_QRLOGIN'		    => 'О программе qrLogin',
+		'GOTO_SITE_QRLOGIN'		=> 'Перейти на сайт qrlogin.info',
 		'QRLOGIN_DESCRIPTION'	=> 'qrLogin - система аутентификации, основанная на считывании qr-кода мобильным телефоном и передаче данных аутентификации по протоколу http/https в приложение или на веб-ресурс.',
 	)
 );

@@ -40,17 +40,13 @@ class qrlogin
 			else
 			{
 				$key_data = shmop_read($shm_id, 0, shmop_size($shm_id));
-				if (!shmop_delete($shm_id))
-				{
-					error_log("can`t delete SHMOD.", 0);
-				}
+				shmop_delete($shm_id);
 				shmop_close($shm_id);
 				return $key_data;
 			}
 		}
 		catch (Exception $e)
 		{
-			error_log('Exception SHMOD read_key: ' . $e->getMessage(), 0);
 			return;
 		}
 	}
@@ -59,18 +55,14 @@ class qrlogin
 	{
 		if (!$shm_id = shmop_open($key, "c", 0644, strlen($data)))
 		{
-			error_log("key not available! " . $key, 0);
 			return false;
 		}
-
 		if (shmop_write($shm_id, $data, 0) != strlen($data))
 		{
-			error_log("Can`t write all data", 0);
 			shmop_delete($shm_id);
 			shmop_close($shm_id);
 			return false;
 		}
-
 		shmop_close($shm_id);
 		return true;
 	}
@@ -111,8 +103,6 @@ class qrlogin
 			{
 				return new Response('', 400);
 			}
-			// error_log("keydata msg " . $keydata, 0);
-
 			$res = $this->do_login_user($keydata);
 
 			msg_send($queue, 2, $res);
@@ -142,11 +132,13 @@ class qrlogin
 			{
 				return new Response('', 400);
 			}
-			// error_log("keydata shmob " . $keydata, 0);
-
 			$res = $this->do_login_user($keydata);
 
 			$this->write_key($key_ans, $res);
+		}
+		else
+		{
+			return new Response('', 400);
 		}
 		return new Response('', $res);
 	}

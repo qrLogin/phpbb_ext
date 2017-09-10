@@ -41,7 +41,8 @@ $lang = array_merge(
 	$lang, array(
 		'ACP_QRLOGIN'								=> 'qrLogin',
 		'QRLOGIN_SETTING'							=> 'qrLogin settings',
-		'SHMOP_NOT_INSTALL'                         => '<<< !!! qrLogin does not work !!! >>><br/>No one of libraryes for exchange is not installed.',
+		'GOTO_SITE_QRLOGIN'                         => 'Go to site qrlogin.info',
+		'SHMOP_NOT_INSTALL'                         => '<<< !!! qrLogin is not working !!! >>><br/>Libraries for exchange are not installed. Install at least one.',
 		'SHMOP_NOT_INSTALL_EXPLAIN'                 => 'Please contact the administrator and enable "System V" (<a href = http://php.net/manual/en/sem.installation.php>sysvmsg or sysvshm</a>) or "Shared Memory PHP" (<a href = http://php.net/manual/en/shmop.installation.php>shmop</a>)',
 		'QRCODE_NOT_INSTALL'                        => '<<< QRCODE library is not installed !!! >>> <br/> qrLogin uses Google Api to display qrcode - only black / white and with a field around ((',
 		'QRCODE_NOT_INSTALL_EXPLAIN'                => 'Install the library or by executing the composer command to automatically download, or download the archive from our site and make sure that it contains the VENDOR folder.<br/>After installation, it is MANDATORY to clear the cache!',

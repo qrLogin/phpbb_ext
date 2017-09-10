@@ -41,8 +41,9 @@ $lang = array_merge(
 	$lang, array(
 		'ACP_QRLOGIN'                               => 'qrLogin',
 		'QRLOGIN_SETTING'                           => 'qrLogin настройки',
+		'GOTO_SITE_QRLOGIN'                         => 'Перейти на сайт qrlogin.info',
 		'SHMOP_NOT_INSTALL'                         => '<<< qrLogin не работает !!! >>><br/>Ни одна из библиотек, используемых для обмена не установлена.',
-		'SHMOP_NOT_INSTALL_EXPLAIN'                 => 'Пожалуйста, свяжитесь с администратором и активируйте какую то из библиотек «System V» (<a href = http://php.net/manual/en/sem.installation.php>sysvmsg или sysvshm</a>) или «Shared Memory PHP» (<a href = http://php.net/manual/en/shmop.installation.php>shmop</a>)',
+		'SHMOP_NOT_INSTALL_EXPLAIN'                 => 'Пожалуйста, свяжитесь с администратором и активируйте одну из библиотек «System V» (<a href = http://php.net/manual/en/sem.installation.php>sysvmsg или sysvshm</a>) или «Shared Memory PHP» (<a href = http://php.net/manual/en/shmop.installation.php>shmop</a>)',
 		'QRCODE_NOT_INSTALL'                        => '<<< Библиотека QRCODE не установлена!!! >>><br/>qrLogin использует Google Api для показа qrcode - только черно/белый и с полем вокруг((',
 		'QRCODE_NOT_INSTALL_EXPLAIN'                => 'Установите библиотеку или выполнив команду composer для автоматической загрузки, или загрузите архив с нашего сайта и убедитесь, что в нем есть папка VENDOR. <br/>После установки ОБЯЗАТЕЛЬНО очистить кеш!',
 		'QRLOGIN_QRCODE_HEADER'						=> 'Параметры QRCODE',
