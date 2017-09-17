@@ -1,23 +1,19 @@
 <!-- IF S_SHMOP and QRLOGIN_NAVBAR_VIEW -->
     <li class="rightside" data-skip-responsive="true">
         <div class="header-profile dropdown-container">
-            <a href="#" class="dropdown-trigger" onclick=qrlogin_onclick() style="background-image:url(./ext/qrlogin/qrlogin/styles/all/theme/images/logo.svg); background-position: 0 50%; background-repeat: no-repeat; background-size: 14px; padding: 0 0 0 18px;">
-			    qrLogin
-    		</a>
-            <div id="qrlogin_dropdown" class="dropdown" style="display: none">
+            <a href="#" class="dropdown-trigger" onclick=qrlogin_onclick() style="background-image:url(./ext/qrlogin/qrlogin/styles/all/theme/images/logo.svg); background-position: 0 50%; background-repeat: no-repeat; background-size: 20px; padding: 0 0 0 22px;">qrLogin</a>
+            <div id="qrlogin_dropdown" class="dropdown" style="display:none; max-width:220px;">
                 <div class="pointer"><div class="pointer-inner"></div></div>
                 <ul class="dropdown-contents">
-                    <a href="{S_QRLOGIN_LINK}" title="{L_SCAN_QRLOGIN}" style="padding:0; margin:0">{QRCODE_LOGIN}</a> 
+                    <li>
+                        <a href="{S_QRLOGIN_LINK}" title="{L_SCAN_QRLOGIN}" style="float:right; padding:0px; margin:0 0 0 2px;">{QRCODE_LOGIN}</a> 
+                        <!-- IF QRLOGIN_NAVBAR_VIEW==1 -->
+                            {L_SCAN_QRLOGIN_PROMPT}
+                        <!-- ENDIF -->
+                    </li>
                 </ul>
             </div>
         </div>
     </li>
-	<!-- IF not $INCLUDED_JQUERY_QR -->
-        <script type="text/javascript">
-            var qrLogin_TimeOut = {QRLOGIN_TIMEOUT}*100;
-            var qrlogin_login_TimeOut = {QRLOGIN_LOGIN_TIMEOUT}*60000;
-        </script>
-		<!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ajax.js -->
-		<!-- DEFINE $INCLUDED_JQUERY_QR = true -->
-	<!-- ENDIF -->
+    <!-- INCLUDE qrlogin_ajax_inc.html -->
 <!-- ENDIF -->

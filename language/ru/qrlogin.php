@@ -33,5 +33,6 @@ if (empty($lang) || !is_array($lang))
 // ’ » “ ” …
 
 $lang = array_merge($lang, array(
-	'SCAN_QRLOGIN'	=> 'Отсканируйте в qrLogin',
+	'SCAN_QRLOGIN'	        => 'Отсканируйте в qrLogin',
+	'SCAN_QRLOGIN_PROMPT'	=> 'Отсканируйте код в программе <a href="http://qrlogin.info/index_ru.html" target="_blank" style="display:inline-block; padding:0;">qrLogin</a>, или «тапните» на нем на Вашем телефоне.',
 ));

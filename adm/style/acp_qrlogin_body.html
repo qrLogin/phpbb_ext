@@ -27,20 +27,20 @@
         <hr />
         <dl>
 			<dt><label for="qrlogin_timeout">{L_QRLOGIN_TIMEOUT}{L_COLON}</label><br /><span>{L_QRLOGIN_TIMEOUT_EXPLAIN}</span></dt>
-			<dd><input id="qrlogin_timeout" type="number" value="{{ qrlogin_timeout }}" min="5" max="50" /> *100ms</dd>
+			<dd><input id="qrlogin_timeout" type="number" name="qrlogin_timeout" value="{{ qrlogin_timeout }}" min="5" max="50" /> *100ms</dd>
 		</dl>
         <dl>
 			<dt><label for="qrlogin_post_timeout">{L_QRLOGIN_POST_TIMEOUT}{L_COLON}</label><br /><span>{L_QRLOGIN_POST_TIMEOUT_EXPLAIN}</span></dt>
-			<dd><input id="qrlogin_post_timeout" type="number" value="{{ qrlogin_post_timeout }}" min="5" max="60" /> s</dd>
+			<dd><input id="qrlogin_post_timeout" type="number" name="qrlogin_post_timeout" value="{{ qrlogin_post_timeout }}" min="5" max="60" /> s</dd>
 		</dl>
         <dl>
 			<dt><label for="qrlogin_login_timeout">{L_QRLOGIN_LOGIN_TIMEOUT}{L_COLON}</label><br /><span>{L_QRLOGIN_LOGIN_TIMEOUT_EXPLAIN}</span></dt>
-			<dd><input id="qrlogin_login_timeout" type="number" value="{{ qrlogin_login_timeout }}" min="0" max="10" /> m</dd>
+			<dd><input id="qrlogin_login_timeout" type="number" name="qrlogin_login_timeout" value="{{ qrlogin_login_timeout }}" min="0" max="10" /> m</dd>
 		</dl>
         <hr />
         <dl>
 			<dt><label for="qrlogin_qrcode_pixel_per_point">{L_QRLOGIN_QRCODE_PIXEL_PER_POINT}{L_COLON}</label><br /><span>{L_QRLOGIN_QRCODE_PIXEL_PER_POINT_EXPLAIN}</span></dt>
-			<dd><input id="qrlogin_qrcode_pixel_per_point" type="number" value="{{ qrlogin_qrcode_pixel_per_point }}" min="1" max="5" /> px</dd>
+			<dd><input id="qrlogin_qrcode_pixel_per_point" type="number" name="qrlogin_qrcode_pixel_per_point" value="{{ qrlogin_qrcode_pixel_per_point }}" min="1" max="5" /> px</dd>
 		</dl>
         <dl>
 		    <dt>
@@ -59,13 +59,15 @@
         <legend>{L_QRLOGIN_VIEW_HEADER}</legend>
         <dl>
             <dt><label for="qrlogin_navbar_view">{L_QRLOGIN_NAVBAR_VIEW}{L_COLON}</label><br /><span>{L_QRLOGIN_NAVBAR_VIEW_EXPLAIN}</span></dt>
-            <dd><input type="radio" class="radio" id="qrlogin_navbar_view" name="qrlogin_navbar_view" value="1" <!-- IF qrlogin_navbar_view --> checked="checked" <!-- ENDIF -->/> {L_YES} &nbsp;
+            <dd><input type="radio" class="radio" id="qrlogin_navbar_view" name="qrlogin_navbar_view" value="1" <!-- IF qrlogin_navbar_view==1 --> checked="checked" <!-- ENDIF -->/> {L_QRLOGIN_YES_PROMPT} &nbsp;
+                <input type="radio" class="radio" name="qrlogin_navbar_view" value="2" <!-- IF qrlogin_navbar_view==2 --> checked="checked" <!-- ENDIF -->/> {L_YES} &nbsp;
                 <input type="radio" class="radio" name="qrlogin_navbar_view" value="0" <!-- IF not qrlogin_navbar_view --> checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
         </dl>
         <hr />
         <dl>
             <dt><label for="qrlogin_fixed_view">{L_QRLOGIN_FIXED_VIEW}{L_COLON}</label><br /><span>{L_QRLOGIN_FIXED_VIEW_EXPLAIN}</span></dt>
-            <dd><input type="radio" class="radio" id="qrlogin_fixed_view" name="qrlogin_fixed_view" value="1" <!-- IF qrlogin_fixed_view --> checked="checked" <!-- ENDIF -->/> {L_YES} &nbsp;
+            <dd><input type="radio" class="radio" id="qrlogin_fixed_view" name="qrlogin_fixed_view" value="1" <!-- IF qrlogin_fixed_view==1 --> checked="checked" <!-- ENDIF -->/> {L_QRLOGIN_YES_PROMPT} &nbsp;
+                <input type="radio" class="radio" name="qrlogin_fixed_view" value="2" <!-- IF qrlogin_fixed_view==2 --> checked="checked" <!-- ENDIF -->/> {L_YES} &nbsp;
                 <input type="radio" class="radio" name="qrlogin_fixed_view" value="0" <!-- IF not qrlogin_fixed_view --> checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
         </dl>
         <dl>
@@ -79,12 +81,13 @@
 		<hr />
         <dl>
             <dt><label for="qrlogin_header_view">{L_QRLOGIN_HEADER_VIEW}{L_COLON}</label><br /><span>{L_QRLOGIN_HEADER_VIEW_EXPLAIN}</span></dt>
-            <dd><input type="radio" class="radio" id="qrlogin_header_view" name="qrlogin_header_view" value="1" <!-- IF qrlogin_header_view -->checked="checked" <!-- ENDIF -->/> {L_YES} &nbsp;
+            <dd><input type="radio" class="radio" id="qrlogin_header_view" name="qrlogin_header_view" value="1" <!-- IF qrlogin_header_view==1 -->checked="checked" <!-- ENDIF -->/> {L_QRLOGIN_CENTER} &nbsp;
+                <input type="radio" class="radio" name="qrlogin_header_view" value="2" <!-- IF qrlogin_header_view==2 -->checked="checked" <!-- ENDIF -->/> {L_QRLOGIN_RIGHT} &nbsp;
                 <input type="radio" class="radio" name="qrlogin_header_view" value="0" <!-- IF not qrlogin_header_view -->checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
         </dl>
         <dl>
 			<dt><label for="qrlogin_header_top_padding">{L_QRLOGIN_HEADER_TOP_PADDING}{L_COLON}</label><br /><span>{L_QRLOGIN_HEADER_TOP_PADDING_EXPLAIN}</span></dt>
-			<dd><input id="qrlogin_header_top_padding" type="number" value="{{ qrlogin_header_top_padding }}" min="0" max="50" /> px</dd>
+			<dd><input id="qrlogin_header_top_padding" type="number" name="qrlogin_header_top_padding" value="{{ qrlogin_header_top_padding }}" min="0" max="50" /> px</dd>
 		</dl>
 		<hr />
 		{L_QRLOGIN_VIEW_FOOTER}
