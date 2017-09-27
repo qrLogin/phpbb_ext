@@ -72,17 +72,17 @@ class qrlogin
 		$fname = $key;
 		if (!file_exists($fname))
 		{
-		    return;
+			return;
 		};
 		$content = file_get_contents($fname);
 		file_put_contents($fname, 0);
 		unlink($fname);
 		return $content;
 	}
-	
+
 	function set_login_user($keydata)
 	{
-        // Session creation
+		// Session creation
 		if ($this->user->session_create($keydata, false, false, true)) 
 		{
 			// set response to OK
@@ -92,14 +92,14 @@ class qrlogin
 		return 403;
 	}
 
-    function response_ajax($res)
-    {
-        if ($res == 200)
-        {
-            return new Response('1', 200);
-        }
-        return new Response('', 200);
-    }
+	function response_ajax($res)
+	{
+		if ($res == 200)
+		{
+			return new Response('1', 200);
+		}
+		return new Response('', 200);
+	}
 
 	public function ajax()
 	{
@@ -107,80 +107,80 @@ class qrlogin
 		$key_req = $this->get_key($this->user->session_id);
 		$key_ans = $this->get_key(hash('md5', $this->user->session_id));
 
-        $poll_lifetime = $this->config['qrlogin_poll_lifetime'];
-        do 
-        {
-            if ( extension_loaded( 'sysvmsg' ))
-            {
-                if ( msg_queue_exists ( $key_req ))
-                {
-                    // create queue
-                    $queue = msg_get_queue( $key_req );
-                    // read data
-                    if (msg_receive( $queue, 1, $msg_type, 1024, $keydata, true, MSG_IPC_NOWAIT))
-                    {
-                        $res = $this->set_login_user( $keydata );
+		$poll_lifetime = $this->config['qrlogin_poll_lifetime'];
+		do
+		{
+			if ( extension_loaded( 'sysvmsg' ))
+			{
+				if ( msg_queue_exists ( $key_req ))
+				{
+					// create queue
+					$queue = msg_get_queue( $key_req );
+					// read data
+					if (msg_receive( $queue, 1, $msg_type, 1024, $keydata, true, MSG_IPC_NOWAIT))
+					{
+						$res = $this->set_login_user( $keydata );
 
-                        msg_send( $queue, 2, $res );
+						msg_send( $queue, 2, $res );
 
-                        return $this->response_ajax($res);
-                    }
-                }
-            }
-            else if ( extension_loaded( 'sysvshm' ))
-            {
-                if ($shm = shm_attach ( $this->get_key( 'qrlogin' )))
-                {
-                 	if ( shm_has_var ( $shm , $key_req ))
-                 	{
-                     	// read data
-                     	$keydata = shm_get_var ( $shm , $key_req );
-                        shm_remove_var ( $shm , $key_req );
-    
-                        $res = $this->set_login_user($keydata);
-    
-                        shm_put_var($shm, $key_ans, $res);
-    
-                        return $this->response_ajax($res);
-                 	}
-                }            
-            }
-            else if ( extension_loaded( 'shmop' ))
-            {
-                // read key data
-                if ($keydata = $this->read_key($key_req))
-                {
-                    $res = $this->set_login_user($keydata);
-    
-                    $this->write_key($key_ans, $res);
-        
-                    return $this->response_ajax($res);
-                }
-            }
-            else
-            {
-                // read key data
-                if ($keydata = $this->file_get_contents_and_delete($key_req))
-                {
-                    $res = $this->set_login_user($keydata);
-    
-                    file_put_contents($key_ans, $res);
-        
-                    return $this->response_ajax($res);
-                }
-            }
+						return $this->response_ajax($res);
+					}
+				}
+			}
+			else if ( extension_loaded( 'sysvshm' ))
+			{
+				if ($shm = shm_attach ( $this->get_key( 'qrlogin' )))
+				{
+					if ( shm_has_var ( $shm , $key_req ))
+					{
+						// read data
+						$keydata = shm_get_var ( $shm , $key_req );
+						shm_remove_var ( $shm , $key_req );
 
-            if (--$poll_lifetime < 0)
-            {
-                return new Response('', 200);
-            }
-            sleep(1);
-            if (connection_aborted())
-            {
-                return new Response('', 200);
-            }
-        }
-        while (true);
+						$res = $this->set_login_user($keydata);
+
+						shm_put_var($shm, $key_ans, $res);
+
+						return $this->response_ajax($res);
+					}
+				}            
+			}
+			else if ( extension_loaded( 'shmop' ))
+			{
+				// read key data
+				if ($keydata = $this->read_key($key_req))
+				{
+					$res = $this->set_login_user($keydata);
+
+					$this->write_key($key_ans, $res);
+
+					return $this->response_ajax($res);
+				}
+			}
+			else
+			{
+				// read key data
+				if ($keydata = $this->file_get_contents_and_delete($key_req))
+				{
+					$res = $this->set_login_user($keydata);
+
+					file_put_contents($key_ans, $res);
+
+					return $this->response_ajax($res);
+				}
+			}
+
+			if (--$poll_lifetime < 0)
+			{
+				return new Response('', 200);
+			}
+			sleep(1);
+			if (connection_aborted())
+			{
+				return new Response('', 200);
+			}
+		}
+		while (true);
 	}
 
 	public function post()
@@ -198,12 +198,12 @@ class qrlogin
 		$login = $this->auth->login(urldecode($postdata['login']), urldecode($postdata['password']), false);
 
 		if (empty($login) || $login['status'] != LOGIN_SUCCESS || $this->user->data['user_id'] == ANONYMOUS)
-        {
-            // if error login - 403 Forbidden
-	        return new Response('', 403);
-        }
- 		    
- 	    $keydata = $this->user->data['user_id'];
+		{
+			// if error login - 403 Forbidden
+			return new Response('', 403);
+		}
+
+		$keydata = $this->user->data['user_id'];
 
 		// set KEYs
 		$key_req = $this->get_key(urldecode($postdata['sessionid']));
@@ -272,7 +272,7 @@ class qrlogin
 			// if key with data exists (((
 			$this->read_key($key_req);
 		}
-		else // file
+		else
 		{
 			// save login data
 			file_put_contents($key_req, $keydata);
