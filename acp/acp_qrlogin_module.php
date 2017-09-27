@@ -27,7 +27,7 @@ class acp_qrlogin_module
 		{
 			$lang_module = 'user';
 		}
-		$this->page_title = $phpbb_container->get($lang_module)->lang('QRLOGIN_SETTING');
+		$this->page_title = $phpbb_container->get($lang_module)->lang('QRLOGIN_SETTINGS');
 
 		add_form_key('qrlogin_settings');
 
@@ -39,18 +39,13 @@ class acp_qrlogin_module
 			}
 
 			$config->set('qrlogin_del_http', $request->variable('qrlogin_del_http', 1));
-			$config->set('qrlogin_timeout', $request->variable('qrlogin_timeout', 10));
+			$config->set('qrlogin_timeout', $request->variable('qrlogin_timeout', 1));
+			$config->set('qrlogin_poll_lifetime', $request->variable('qrlogin_poll_lifetime', 20));
 			$config->set('qrlogin_post_timeout', $request->variable('qrlogin_post_timeout', 10));
-			$config->set('qrlogin_login_timeout', $request->variable('qrlogin_login_timeout', 3));
-			$config->set('qrlogin_qrcode_pixel_per_point', $request->variable('qrlogin_qrcode_pixel_per_point', 2));
-			$config->set('qrlogin_qrcode_fore_color', $request->variable('qrlogin_qrcode_fore_color', '#00008B'));
+			$config->set('qrlogin_login_timeout', $request->variable('qrlogin_login_timeout', 96));
+			$config->set('qrlogin_qrcode_size', $request->variable('qrlogin_qrcode_size', 2));
+			$config->set('qrlogin_qrcode_fore_color', $request->variable('qrlogin_qrcode_fore_color', '#000064'));
 			$config->set('qrlogin_qrcode_back_color', $request->variable('qrlogin_qrcode_back_color', '#FFFFFF'));
-			$config->set('qrlogin_navbar_view', $request->variable('qrlogin_navbar_view', 1));
-			$config->set('qrlogin_fixed_view', $request->variable('qrlogin_fixed_view', 0));
-			$config->set('qrlogin_fixed_settings', $request->variable('qrlogin_fixed_settings', 'left: 0%; bottom: 0%; padding: 5px; border-radius: 0px 10px 0px 0px'));
-			$config->set('qrlogin_fixed_color', $request->variable('qrlogin_fixed_color', '#FFFFFF'));
-			$config->set('qrlogin_header_view', $request->variable('qrlogin_header_view', 0));
-			$config->set('qrlogin_header_top_padding', $request->variable('qrlogin_header_top_padding', 0));
 
 			trigger_error($phpbb_container->get($lang_module)->lang('ACP_QRLOGIN_SETTING_SAVED') . adm_back_link($this->u_action));
 		}
@@ -58,19 +53,12 @@ class acp_qrlogin_module
 		$template->assign_vars(array(
 			'qrlogin_del_http' => $config['qrlogin_del_http'],
 			'qrlogin_timeout' => $config['qrlogin_timeout'],
+			'qrlogin_poll_lifetime' => $config['qrlogin_poll_lifetime'],
 			'qrlogin_post_timeout' => $config['qrlogin_post_timeout'],
 			'qrlogin_login_timeout' => $config['qrlogin_login_timeout'],
-			'qrlogin_qrcode_pixel_per_point' => $config['qrlogin_qrcode_pixel_per_point'],
+			'qrlogin_qrcode_size' => $config['qrlogin_qrcode_size'],
 			'qrlogin_qrcode_fore_color' => $config['qrlogin_qrcode_fore_color'],
 			'qrlogin_qrcode_back_color' => $config['qrlogin_qrcode_back_color'],
-			'qrlogin_navbar_view' => $config['qrlogin_navbar_view'],
-			'qrlogin_fixed_view' => $config['qrlogin_fixed_view'],
-			'qrlogin_fixed_settings' => $config['qrlogin_fixed_settings'],
-			'qrlogin_fixed_color' => $config['qrlogin_fixed_color'],
-			'qrlogin_header_view' => $config['qrlogin_header_view'],
-			'qrlogin_header_top_padding' => $config['qrlogin_header_top_padding'],
-			'S_SHMOP' => (extension_loaded( 'sysvmsg' ) || extension_loaded( 'sysvshm' ) || extension_loaded( 'shmop' )) ? 1 : 0,
-			'S_QRCODE_CLASS' => class_exists('QRcode') ? 1 : 0,
 			'U_ACTION' => $this->u_action,
 		));
 	}

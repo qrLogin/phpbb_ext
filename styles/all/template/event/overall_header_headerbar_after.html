@@ -1,9 +1,0 @@
-<!-- IF S_SHMOP and not S_USER_LOGGED_IN and not S_IS_BOT and QRLOGIN_FIXED_VIEW -->
-        <div id='qrlogin_qrcode' style='position:fixed; z-index:100; max-width:15%; min-width:100px; background:{QRLOGIN_FIXED_COLOR}; {QRLOGIN_FIXED_SETTINGS}'>
-            <a href="{S_QRLOGIN_LINK}" title="{L_SCAN_QRLOGIN}" style="float:right; padding:0; margin:0 0 0 2px;">{QRCODE_LOGIN}</a>
-             <!-- IF QRLOGIN_FIXED_VIEW==1 -->
-                {L_SCAN_QRLOGIN_PROMPT}
-            <!-- ENDIF -->
-        </div>
-<!-- ENDIF -->
-<!-- INCLUDE qrlogin_ajax_inc.html -->

@@ -1,31 +1,38 @@
 if(typeof qrLogin_TimeOut == "undefined"){ var qrLogin_TimeOut = 1000; }
 if(typeof qrlogin_login_TimeOut == "undefined"){ var qrlogin_login_TimeOut = 3*60*1000;}
-function qrlogin_if_login(){
-    $.get('./qrlogin_ajax', function(){	window.location.reload(true); });
+var qrlogin_text = 'QRLOGIN\nL:V1\n' + qrlogin_forum_url + '\n' + qrlogin_session_id;
+function qrlogin_if_logged(){ 
+    if (document.getElementById("qrlogin_dropdown").style["display"] != "none") {
+        $.ajax({
+            url: "./qrlogin_ajax",
+            success: function(data) {
+                if(data) window.location.reload(true);
+                else setTimeout(qrlogin_if_logged, qrLogin_TimeOut); 
+            },
+            error: function(errorThrown) { qrlogin_stop_scan(); },
+        });
+    }
 }
-
-var qrlogin_timer_dropdown;
-var qrlogin_timeout_dropdown;
-function qrlogin_if_login_dropdown(){
-    qrlogin_if_login();
-    if (document.getElementById("qrlogin_dropdown").style["display"] == "block") return;
-    clearInterval(qrlogin_timer_dropdown);
-    clearTimeout(qrlogin_timeout_dropdown);
+function qrlogin_stop_scan() {
+    $('[id="qrlogin_dropdown"]').hide();
+}
+function qrlogin_start_scan() {
+  	setTimeout(qrlogin_if_logged, qrLogin_TimeOut);
+  	if (qrlogin_login_TimeOut === 0) return;
+	setTimeout(function(){ qrlogin_stop_scan(); }, qrlogin_login_TimeOut);
 }
 function qrlogin_onclick(){
-	if (document.getElementById("qrlogin_dropdown").style["display"] == "block") return;
-	qrlogin_timer_dropdown = setInterval(qrlogin_if_login_dropdown, qrLogin_TimeOut);
-    if (qrlogin_login_TimeOut === 0) return;
-    qrlogin_timeout_dropdown = setTimeout(function(){ $('[id="qrlogin_dropdown"]').hide(); }, qrlogin_login_TimeOut);
+	if (document.getElementById("qrlogin_dropdown").style["display"] != "none") return;
+	qrlogin_start_scan();
 }
-
 $(document).ready(function(){
-    qrlogin_if_login();
-    if(!document.getElementById('qrlogin_qrcode')) return;
-    var qrlogin_timer = setInterval(qrlogin_if_login, qrLogin_TimeOut);
-    if (qrlogin_login_TimeOut === 0) return;
-    setTimeout(function() {
-        clearInterval(qrlogin_timer);
-      	$('[id="qrlogin_qrcode"]').hide();
-    }, qrlogin_login_TimeOut);
+    var qrl_qrcode = document.getElementById("qrl_qrcode");
+    if (qrl_qrcode === null) return;
+    var qrcode = new QRCode( qrl_qrcode, {
+        text: qrlogin_text, width: qrlogin_size, height: qrlogin_size,
+        colorDark: qrlogin_fore_color, colorLight: qrlogin_back_color,
+        correctLevel: QRCode.CorrectLevel.M
+    });
+    qrl_qrcode.title = qrlogin_title;
+    qrl_qrcode.href = "qrlogin://" + qrlogin_text.replace(/\n/g, "%0A");
 });

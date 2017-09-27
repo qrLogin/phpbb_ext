@@ -1,19 +1,26 @@
-<!-- IF S_SHMOP and QRLOGIN_NAVBAR_VIEW -->
-    <li class="rightside" data-skip-responsive="true">
-        <div class="header-profile dropdown-container">
-            <a href="#" class="dropdown-trigger" onclick=qrlogin_onclick() style="background-image:url(./ext/qrlogin/qrlogin/styles/all/theme/images/logo.svg); background-position: 0 50%; background-repeat: no-repeat; background-size: 20px; padding: 0 0 0 22px;">qrLogin</a>
-            <div id="qrlogin_dropdown" class="dropdown" style="display:none; max-width:220px;">
-                <div class="pointer"><div class="pointer-inner"></div></div>
-                <ul class="dropdown-contents">
-                    <li style="white-space: normal;">
-                        <a href="{S_QRLOGIN_LINK}" title="{L_SCAN_QRLOGIN}" style="float:right; padding:0px; margin:0 0 0 2px;">{QRCODE_LOGIN}</a> 
-                        <!-- IF QRLOGIN_NAVBAR_VIEW==1 -->
-                            {L_SCAN_QRLOGIN_PROMPT}
-                        <!-- ENDIF -->
-                    </li>
-                </ul>
-            </div>
+<li class="rightside" data-skip-responsive="true">
+    <div class="header-profile dropdown-container">
+        <a href="#" class="dropdown-trigger" onclick=qrlogin_onclick() style="background-image:url(./ext/qrlogin/qrlogin/styles/all/theme/images/logo.png); background-position: 0 50%; background-repeat: no-repeat; background-size: 16px; padding: 0 0 0 18px;">qrLogin</a>
+        <div id="qrlogin_dropdown" class="dropdown" style="display:none; max-width:240px;">
+            <div class="pointer"><div class="pointer-inner"></div></div>
+            <ul class="dropdown-contents">
+                <li style="white-space: normal;">
+                    <a id="qrl_qrcode" target="_blank" style="float:right"></a>
+                    {L_SCAN_QRLOGIN_PROMPT}
+                </li>
+            </ul>
         </div>
-    </li>
-    <!-- INCLUDE qrlogin_ajax_inc.html -->
-<!-- ENDIF -->
+    </div>
+</li>
+<script type="text/javascript">
+    var qrlogin_forum_url = "{QRLOGIN_FORUM_URL}";
+    var qrlogin_session_id = "{QRLOGIN_SESSION_ID}";
+    var qrlogin_title = "{L_SCAN_QRLOGIN}";
+    var qrlogin_size = "{QRLOGIN_SIZE}";
+    var qrlogin_fore_color = "{QRLOGIN_FORE_COLOR}";
+    var qrlogin_back_color = "{QRLOGIN_BACK_COLOR}";
+    var qrLogin_TimeOut = {QRLOGIN_TIMEOUT}*1000;
+    var qrlogin_login_TimeOut = {QRLOGIN_LOGIN_TIMEOUT}*60000;
+</script>
+<!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrcode.js -->
+<!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ajax.js -->

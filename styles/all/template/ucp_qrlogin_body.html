@@ -2,46 +2,45 @@
 
 <form id="ucp" method="post" action="{S_UCP_ACTION}">
     <h2><div>
-	    <a href="http://qrlogin.info">
-	        <img src="./ext/qrlogin/qrlogin/styles/all/theme/images/logo.svg" width="30" title="{L_GOTO_SITE_QRLOGIN}">
+        <a href="http://qrlogin.info">
+            <img src="./ext/qrlogin/qrlogin/styles/all/theme/images/logo.svg" width="30" title="{L_GOTO_SITE_QRLOGIN}">
         </a>
         {L_UCP_QRLOGIN_SETTINGS}
-	</div></h2>
-	
-	<div class="panel">
+    </div></h2>
+    <div class="panel">
 		<div class="inner">
-    		<fieldset>
+            <fieldset>
                 <dl>
                     <dt>
                         <label>{L_SCAN_FOR_QRLOGIN}{L_COLON}</label><br />
-    		            <span><!-- IF not CUR_PASSWORD -->{L_SCAN_DESCRIPTION}<!-- ELSE -->{L_SCAN_DESCRIPTION_PASS}<!-- ENDIF --></span>
+                        <span name="qrlogin_description">{L_SCAN_DESCRIPTION}</span>
+                        <span name="qrlogin_description_pass" style="display:none">{L_SCAN_DESCRIPTION_PASS}</span>
                     </dt>
                     <dd>
-                        <a href="{S_QRLOGIN_LINK1}" title="{L_SCAN_FOR_QRLOGIN}">{QRCODE_REGISTER}</a>
+                        <a id="qrl_qrcode" target="_blank"></a>
                     </dd>
                 </dl>
                 <hr />
-            	<dl>
-            		<dt><label for="cur_password">{L_CURRENT_PASSWORD}{L_COLON}</label><br /><span>{L_SCAN_PASSWORD_EXPLAIN}</span></dt>
-            		<dd>
-            		    <input type="password" name="cur_password" id="cur_password" maxlength="255" value="{CUR_PASSWORD}" class="inputbox" style="width:70%" title="{L_CURRENT_PASSWORD}" autocomplete="off" />
-            		    <input type="submit" name="show_qrcode" value="{L_SHOW_QRCODE}" class="button2" />
-            		</dd>
-            	</dl>
+                <dl>
+                    <dt><label for="cur_password">{L_CURRENT_PASSWORD}{L_COLON}</label><br /><span>{L_SCAN_PASSWORD_EXPLAIN}</span></dt>
+                    <dd>
+                        <input type="password" name="cur_password" id="cur_password" maxlength="255" class="inputbox" style="width:70%" title="{L_CURRENT_PASSWORD}" autocomplete="off" />
+                        <input type="button" onclick="qrlogin_get_qrcode()" value="{L_SHOW_QRCODE}" class="button2" />
+                    </dd>
+                </dl>
             </fieldset>
 		</div>
 	</div>
-	
 	<div class="panel">
-    	<div class="inner">
-    	    <fieldset>
-                 <dl>
+        <div class="inner">
+            <fieldset>
+                <dl>
                     <dt><label>{L_ABOUT_QRLOGIN}{L_COLON}</label></dt>
                 </dl>
                 {L_QRLOGIN_DESCRIPTION}
                 <br /><br />
-    	    </fieldset>
-    	    <hr />
+            </fieldset>
+            <hr />
             <div>
                 <a href="https://play.google.com/store/apps/details?id=com.qrlogin">
                     <img src="./ext/qrlogin/qrlogin/styles/all/theme/images/google-button.svg" width="80">
@@ -52,7 +51,16 @@
             </div>
 		</div>
 	</div>
-	
 </form>
+<script type="text/javascript">
+    var qrlogin_forum_url = "{QRLOGIN_FORUM_URL}";
+    var qrlogin_username = "{QRLOGIN_USERNAME}";
+    var qrlogin_title = "{L_SCAN_QRLOGIN}";
+    var qrlogin_size = "{QRLOGIN_SIZE}";
+    var qrlogin_fore_color = "{QRLOGIN_FORE_COLOR}";
+    var qrlogin_back_color = "{QRLOGIN_BACK_COLOR}";
+</script>
+<!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrcode.js -->
+<!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ucp.js -->
 
 {% INCLUDE 'ucp_footer.html' %}
