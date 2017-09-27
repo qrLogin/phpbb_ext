@@ -83,7 +83,7 @@ class qrlogin
 	function set_login_user($keydata)
 	{
 		// Session creation
-		if ($this->user->session_create($keydata, false, false, true)) 
+		if ($this->user->session_create($keydata, false, false, true))
 		{
 			// set response to OK
 			return 200;
@@ -143,7 +143,7 @@ class qrlogin
 
 						return $this->response_ajax($res);
 					}
-				}            
+				}
 			}
 			else if ( extension_loaded( 'shmop' ))
 			{
