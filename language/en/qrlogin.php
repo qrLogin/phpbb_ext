@@ -34,5 +34,5 @@ if (empty($lang) || !is_array($lang))
 
 $lang = array_merge($lang, array(
 	'SCAN_QRLOGIN'		    => 'Scan in qrLogin',
-	'SCAN_QRLOGIN_PROMPT'	=> 'Use the <a href="http://qrlogin.info" target="_blank" style="display:inline-block; padding:0;">qrLogin</a> app to scan the QR Code, or just tap the code on your phone.',
+	'SCAN_QRLOGIN_PROMPT'	=> 'Use the <a href="http://qrlogin.info" target="_blank" style="display:inline-block; padding:0;">qrLogin</a> app to scan the QR Code, or just tap the code on your phone.<br/>Wait',
 ));

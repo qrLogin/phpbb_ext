@@ -1,0 +1,2 @@
+parameters:
+    tables.qrlogin: %core.table_prefix%qrlogin

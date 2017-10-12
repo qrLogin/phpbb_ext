@@ -21,12 +21,10 @@ class acp_qrlogin_module
 	{
 		global $phpbb_container, $template, $request, $config;
 
+		// for compatible with 3.1 version phpBB
+		$lang_module = ($config['version'] < 3.2) ? 'user' : 'language';
+
 		$this->tpl_name = 'acp_qrlogin_body';
-		$lang_module = 'language';
-		if ($config['version'] < 3.2)
-		{
-			$lang_module = 'user';
-		}
 		$this->page_title = $phpbb_container->get($lang_module)->lang('QRLOGIN_SETTINGS');
 
 		add_form_key('qrlogin_settings');
@@ -42,8 +40,8 @@ class acp_qrlogin_module
 			$config->set('qrlogin_timeout', $request->variable('qrlogin_timeout', 1));
 			$config->set('qrlogin_poll_lifetime', $request->variable('qrlogin_poll_lifetime', 20));
 			$config->set('qrlogin_post_timeout', $request->variable('qrlogin_post_timeout', 10));
-			$config->set('qrlogin_login_timeout', $request->variable('qrlogin_login_timeout', 96));
-			$config->set('qrlogin_qrcode_size', $request->variable('qrlogin_qrcode_size', 2));
+			$config->set('qrlogin_login_timeout', $request->variable('qrlogin_login_timeout', 3));
+			$config->set('qrlogin_qrcode_size', $request->variable('qrlogin_qrcode_size', 96));
 			$config->set('qrlogin_qrcode_fore_color', $request->variable('qrlogin_qrcode_fore_color', '#000064'));
 			$config->set('qrlogin_qrcode_back_color', $request->variable('qrlogin_qrcode_back_color', '#FFFFFF'));
 
@@ -52,11 +50,11 @@ class acp_qrlogin_module
 
 		$template->assign_vars(array(
 			'qrlogin_del_http' => $config['qrlogin_del_http'],
-			'qrlogin_timeout' => $config['qrlogin_timeout'],
-			'qrlogin_poll_lifetime' => $config['qrlogin_poll_lifetime'],
-			'qrlogin_post_timeout' => $config['qrlogin_post_timeout'],
-			'qrlogin_login_timeout' => $config['qrlogin_login_timeout'],
-			'qrlogin_qrcode_size' => $config['qrlogin_qrcode_size'],
+			'qrlogin_timeout' => (int) $config['qrlogin_timeout'],
+			'qrlogin_poll_lifetime' => (int) $config['qrlogin_poll_lifetime'],
+			'qrlogin_post_timeout' => (int) $config['qrlogin_post_timeout'],
+			'qrlogin_login_timeout' => (int) $config['qrlogin_login_timeout'],
+			'qrlogin_qrcode_size' => (int) $config['qrlogin_qrcode_size'],
 			'qrlogin_qrcode_fore_color' => $config['qrlogin_qrcode_fore_color'],
 			'qrlogin_qrcode_back_color' => $config['qrlogin_qrcode_back_color'],
 			'U_ACTION' => $this->u_action,

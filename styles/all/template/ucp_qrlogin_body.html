@@ -2,7 +2,7 @@
 
 <form id="ucp" method="post" action="{S_UCP_ACTION}">
     <h2><div>
-        <a href="http://qrlogin.info">
+        <a href="http://qrlogin.info" target="_blank">
             <img src="./ext/qrlogin/qrlogin/styles/all/theme/images/logo.svg" width="30" title="{L_GOTO_SITE_QRLOGIN}">
         </a>
         {L_UCP_QRLOGIN_SETTINGS}
@@ -17,7 +17,7 @@
                         <span name="qrlogin_description_pass" style="display:none">{L_SCAN_DESCRIPTION_PASS}</span>
                     </dt>
                     <dd>
-                        <a id="qrl_qrcode" target="_blank"></a>
+                        <a id="qrl_qrcode" href="http://qrlogin.info" target="_blank"></a>
                     </dd>
                 </dl>
                 <hr />
@@ -42,10 +42,10 @@
             </fieldset>
             <hr />
             <div>
-                <a href="https://play.google.com/store/apps/details?id=com.qrlogin">
+                <a href="https://play.google.com/store/apps/details?id=com.qrlogin" target="_blank">
                     <img src="./ext/qrlogin/qrlogin/styles/all/theme/images/google-button.svg" width="80">
                 </a>
-                <a href="https://itunes.apple.com/ua/app/qrlogin/id1240222885">
+                <a href="https://itunes.apple.com/ua/app/qrlogin/id1240222885" target="_blank">
                     <img src="./ext/qrlogin/qrlogin/styles/all/theme/images/apple-button.svg" width="80">
                 </a>
             </div>
@@ -53,12 +53,12 @@
 	</div>
 </form>
 <script type="text/javascript">
-    var qrlogin_forum_url = "{QRLOGIN_FORUM_URL}";
-    var qrlogin_username = "{QRLOGIN_USERNAME}";
-    var qrlogin_title = "{L_SCAN_QRLOGIN}";
-    var qrlogin_size = "{QRLOGIN_SIZE}";
-    var qrlogin_fore_color = "{QRLOGIN_FORE_COLOR}";
-    var qrlogin_back_color = "{QRLOGIN_BACK_COLOR}";
+    var qrlogin_forum_url = "{A_QRLOGIN_FORUM_URL}";
+    var qrlogin_username = "{A_QRLOGIN_USERNAME}";
+    var qrlogin_title = "{LA_SCAN_QRLOGIN}";
+    var qrlogin_size = {QRLOGIN_SIZE};
+    var qrlogin_fore_color = "{A_QRLOGIN_FORE_COLOR}";
+    var qrlogin_back_color = "{A_QRLOGIN_BACK_COLOR}";
 </script>
 <!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrcode.js -->
 <!-- INCLUDEJS @qrlogin_qrlogin/javascript/qrlogin_ucp.js -->

@@ -1,3 +1,6 @@
+imports:
+    - { resource: tables.yml }
+
 services:
     qrlogin.qrlogin.listener:
         class: qrlogin\qrlogin\event\listener
@@ -13,3 +16,5 @@ services:
             - '@config'
             - '@auth'
             - '@user'
+            - '@dbal.conn'
+            - '%tables.qrlogin%'

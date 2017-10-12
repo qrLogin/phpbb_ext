@@ -68,15 +68,14 @@ class listener implements EventSubscriberInterface
 		}
 
 		$this->template->assign_vars(array(
-// 			'S_SHMOP'						=> (extension_loaded( 'sysvmsg' ) || extension_loaded( 'sysvshm' ) || extension_loaded( 'shmop' )) ? 1 : 0,
-			'QRLOGIN_FORUM_URL'             => $forum_url,
-			'QRLOGIN_USERNAME'              => $this->user->data['username'],
-			'QRLOGIN_SESSION_ID'            => $this->user->session_id,
-			'QRLOGIN_SIZE'				    => $this->config['qrlogin_qrcode_size'],
-			'QRLOGIN_FORE_COLOR'		    => $this->config['qrlogin_qrcode_fore_color'],
-			'QRLOGIN_BACK_COLOR'		    => $this->config['qrlogin_qrcode_back_color'],
-			'QRLOGIN_TIMEOUT'               => $this->config['qrlogin_timeout'],
-			'QRLOGIN_LOGIN_TIMEOUT'         => $this->config['qrlogin_login_timeout'],
+			'A_QRLOGIN_FORUM_URL'       => addslashes($forum_url),
+			'A_QRLOGIN_USERNAME'        => addslashes($this->user->data['username']),
+			'A_QRLOGIN_SESSION_ID'      => addslashes($this->user->session_id),
+			'QRLOGIN_SIZE'              => (int) $this->config['qrlogin_qrcode_size'],
+			'A_QRLOGIN_FORE_COLOR'      => addslashes($this->config['qrlogin_qrcode_fore_color']),
+			'A_QRLOGIN_BACK_COLOR'      => addslashes($this->config['qrlogin_qrcode_back_color']),
+			'QRLOGIN_TIMEOUT'           => (int) $this->config['qrlogin_timeout'],
+			'QRLOGIN_LOGIN_TIMEOUT'     => (int) $this->config['qrlogin_login_timeout'],
 		));
 	}
 }

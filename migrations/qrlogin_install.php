@@ -37,8 +37,8 @@ class qrlogin_install extends \phpbb\db\migration\migration
 				'acp',
 				'ACP_QRLOGIN',
 				array(
-					'module_basename'	=> '\qrlogin\qrlogin\acp\acp_qrlogin_module',
-					'settings'				=> array('settings'),
+					'module_basename'   => '\qrlogin\qrlogin\acp\acp_qrlogin_module',
+					'modes'             => array('settings'),
 				),
 			)),
 
@@ -58,4 +58,30 @@ class qrlogin_install extends \phpbb\db\migration\migration
 			)),
 		);
 	}
+
+	public function update_schema()
+	{
+		return array(
+			'add_tables'	=> array(
+				$this->table_prefix . 'qrlogin'	=> array(
+					'COLUMNS'		=> array(
+						'sid'		=> array('CHAR:32', ''),
+						'uid'       => array('UINT:10', 0),
+						'result'    => array('UINT:4', 0),
+					),
+					'PRIMARY_KEY'	=> 'sid',
+				),
+			),
+		);
+	}
+
+	public function revert_schema()
+	{
+		return array(
+			'drop_tables'	=> array(
+				$this->table_prefix . 'qrlogin',
+			),
+		);
+	}
+
 }

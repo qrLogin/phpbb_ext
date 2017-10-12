@@ -16,160 +16,43 @@ class qrlogin
 	protected $config;
 	protected $auth;
 	protected $user;
+	protected $db;
+	protected $qrlogin_table;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\auth\auth $auth, \phpbb\user $user)
+	public function __construct(\phpbb\config\config $config, \phpbb\auth\auth $auth, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $qrlogin_table)
 	{
 		$this->config = $config;
 		$this->auth = $auth;
 		$this->user = $user;
+		$this->db = $db;
+		$this->qrlogin_table = $qrlogin_table;
 	}
 
-	private function get_key($data)
-	{
-		return hexdec(hash("crc32", 'qrlogin' . $data));
-	}
+    function get_field_session($field, $sql_where)
+    {
+		$sql	 = 'SELECT ' . $field . ' FROM ' . $this->qrlogin_table . $sql_where;
+		$result	 = $this->db->sql_query($sql);
+		$row	 = $this->db->sql_fetchrow($result);
+		$this->db->sql_freeresult($result);
 
-	private function read_key($key)
-	{
-		try
-		{
-			if (!$shm_id = @shmop_open($key, "w", 0644, 0))
-			{
-				return;
-			}
-			else
-			{
-				$key_data = shmop_read($shm_id, 0, shmop_size($shm_id));
-				shmop_delete($shm_id);
-				shmop_close($shm_id);
-				return $key_data;
-			}
-		}
-		catch (Exception $e)
-		{
-			return;
-		}
-	}
-
-	private function write_key($key, $data)
-	{
-		if (!$shm_id = shmop_open($key, "c", 0644, strlen($data)))
-		{
-			return false;
-		}
-		if (shmop_write($shm_id, $data, 0) != strlen($data))
-		{
-			shmop_delete($shm_id);
-			shmop_close($shm_id);
-			return false;
-		}
-		shmop_close($shm_id);
-		return true;
-	}
-
-	private function file_get_contents_and_delete($key)
-	{
-		$fname = $key;
-		if (!file_exists($fname))
-		{
-			return;
-		};
-		$content = file_get_contents($fname);
-		file_put_contents($fname, 0);
-		unlink($fname);
-		return $content;
-	}
-
-	function set_login_user($keydata)
-	{
-		// Session creation
-		if ($this->user->session_create($keydata, false, false, true))
-		{
-			// set response to OK
-			return 200;
-		}
-		// if error Session creation - 403 Forbidden
-		return 403;
-	}
-
-	function response_ajax($res)
-	{
-		if ($res == 200)
-		{
-			return new Response('1', 200);
-		}
-		return new Response('', 200);
-	}
+		return $row[$field];
+    }
 
 	public function ajax()
 	{
-		// set KEYs
-		$key_req = $this->get_key($this->user->session_id);
-		$key_ans = $this->get_key(hash('md5', $this->user->session_id));
+        $sid = md5('qrlogin' . $this->user->session_id);
+		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', ['sid' => $sid]);
 
-		$poll_lifetime = $this->config['qrlogin_poll_lifetime'];
-		do
-		{
-			if ( extension_loaded( 'sysvmsg' ))
-			{
-				if ( msg_queue_exists ( $key_req ))
-				{
-					// create queue
-					$queue = msg_get_queue( $key_req );
-					// read data
-					if (msg_receive( $queue, 1, $msg_type, 1024, $keydata, true, MSG_IPC_NOWAIT))
-					{
-						$res = $this->set_login_user( $keydata );
+        $poll_lifetime = $this->config['qrlogin_poll_lifetime'];
 
-						msg_send( $queue, 2, $res );
-
-						return $this->response_ajax($res);
-					}
-				}
-			}
-			else if ( extension_loaded( 'sysvshm' ))
-			{
-				if ($shm = shm_attach ( $this->get_key( 'qrlogin' )))
-				{
-					if ( shm_has_var ( $shm , $key_req ))
-					{
-						// read data
-						$keydata = shm_get_var ( $shm , $key_req );
-						shm_remove_var ( $shm , $key_req );
-
-						$res = $this->set_login_user($keydata);
-
-						shm_put_var($shm, $key_ans, $res);
-
-						return $this->response_ajax($res);
-					}
-				}
-			}
-			else if ( extension_loaded( 'shmop' ))
-			{
-				// read key data
-				if ($keydata = $this->read_key($key_req))
-				{
-					$res = $this->set_login_user($keydata);
-
-					$this->write_key($key_ans, $res);
-
-					return $this->response_ajax($res);
-				}
-			}
-			else
-			{
-				// read key data
-				if ($keydata = $this->file_get_contents_and_delete($key_req))
-				{
-					$res = $this->set_login_user($keydata);
-
-					file_put_contents($key_ans, $res);
-
-					return $this->response_ajax($res);
-				}
-			}
-
+        // waiting for login - max $poll_lifetime s
+        while (true)
+        {
+            // received uid for login
+            if ($uid = $this->get_field_session('uid', $sql_where))
+            {
+                break;
+            }
 			if (--$poll_lifetime < 0)
 			{
 				return new Response('', 200);
@@ -179,8 +62,17 @@ class qrlogin
 			{
 				return new Response('', 200);
 			}
-		}
-		while (true);
+        }
+
+        // received uid for login - Session creation
+        $res = $this->user->session_create($uid, false, false, true);
+
+        // set login status for qrLogin post to 200 or 403 - Forbidden
+		$sql = 'UPDATE ' . $this->qrlogin_table . ' SET ' . $this->db->sql_build_array('UPDATE', ['result' => ($res ? 200 : 403)]) . $sql_where;
+		$this->db->sql_query($sql);
+    
+        // answer to ajax with '1' for reload page if OK
+        return new Response($res ? '1' : '', 200);
 	}
 
 	public function post()
@@ -197,94 +89,36 @@ class qrlogin
 		// do Login user
 		$login = $this->auth->login(urldecode($postdata['login']), urldecode($postdata['password']), false);
 
-		if (empty($login) || $login['status'] != LOGIN_SUCCESS || $this->user->data['user_id'] == ANONYMOUS)
-		{
-			// if error login - 403 Forbidden
-			return new Response('', 403);
-		}
+		// if error login - 403 Forbidden
+        if (empty($login) || $login['status'] != LOGIN_SUCCESS || $this->user->data['user_id'] == ANONYMOUS)
+        {
+            return new Response('', 403);
+        }
 
-		$keydata = $this->user->data['user_id'];
+        $sid = md5('qrlogin' . urldecode($postdata['sessionid']));
+		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', ['sid' => $sid]);
+        $sql_del = 'DELETE FROM ' . $this->qrlogin_table . $sql_where;
+        $sql_ins = 'INSERT INTO ' . $this->qrlogin_table . ' ' . $this->db->sql_build_array('INSERT', ['sid' => $sid, 'uid' => $this->user->data['user_id']]);
 
-		// set KEYs
-		$key_req = $this->get_key(urldecode($postdata['sessionid']));
-		$key_ans = $this->get_key(hash('md5', urldecode($postdata['sessionid'])));
+        // remove queue from db
+        $this->db->sql_query($sql_del);
 
-		// if not answer - 408 Request Timeout
-		$ans = 408;
-		$post_timeout = $this->config['qrlogin_post_timeout'];
-		if (extension_loaded( 'sysvmsg' ))
-		{
-			// create queue
-			$queue = msg_get_queue($key_req);
-			// send login data
-			if (!msg_send($queue, 1, $keydata))
-			{
-				return new Response('', 400);
-			}
-			// waiting for answer - max qrlogin_post_timeout s
-			while (!msg_receive ($queue, 2, $msg_type, 16, $ans, true, MSG_IPC_NOWAIT) && ($post_timeout-- > 0))
-			{
-				sleep(1);
-			}
-			// remove queue
-			msg_remove_queue($queue);
-		}
-		else if ( extension_loaded( 'sysvshm' ))
-		{
-			if (!$shm = shm_attach ( $this->get_key('qrlogin') ))
-			{
-				return new Response('', 400);
-			}
-			// save login data
-			if (!shm_put_var($shm, $key_req, $keydata))
-			{
-				return new Response('', 400);
-			}
-			// waiting for answer - max qrlogin_post_timeout s
-			while ((!shm_has_var ( $shm , $key_ans )) && ($post_timeout-- > 0))
-			{
-				sleep(1);
-			}
-			// read answer
-			if ( shm_has_var ( $shm , $key_ans ) )
-			{
-				$ans = shm_get_var ( $shm , $key_ans );
-				shm_remove_var ( $shm , $key_ans );
-			}
-			// if key with data exists (((
-			if ( shm_has_var ( $shm , $key_req ) )
-			{
-				shm_remove_var ( $shm , $key_req );
-			}
-		}
-		else if (extension_loaded( 'shmop' ))
-		{
-			// save login data
-			if ( !$this->write_key($key_req, $keydata) )
-			{
-				return new Response('', 400);
-			};
-			// waiting for answer - max qrlogin_post_timeout s
-			while ((!$ans = $this->read_key($key_ans)) && ($post_timeout-- > 0))
-			{
-				sleep(1);
-			}
-			// if key with data exists (((
-			$this->read_key($key_req);
-		}
-		else
-		{
-			// save login data
-			file_put_contents($key_req, $keydata);
-			// waiting for answer - max qrlogin_post_timeout s
-			while ((!$ans = $this->file_get_contents_and_delete($key_ans)) && ($post_timeout-- > 0))
-			{
-				sleep(1);
-			}
-			// if key with data exists (((
-			$this->file_get_contents_and_delete($key_req);
-		}
+        // insert queue into db
+        $this->db->sql_query($sql_ins);
 
-		return new Response('', $ans);
+        // waiting for answer - max qrlogin_post_timeout s
+        $post_timeout = $this->config['qrlogin_post_timeout'];
+     	while ((!$ans = $this->get_field_session('result', $sql_where)) && ($post_timeout-- > 0))
+     	{
+            sleep(1);
+        }
+
+        // if not exists answer ! 408 Request Timeout
+        $ans = $ans ? $ans : 408;
+
+        // remove queue from db
+        $this->db->sql_query($sql_del);
+
+        return new Response('', $ans);
 	}
 }
