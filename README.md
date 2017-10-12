@@ -1,6 +1,6 @@
 ﻿# qrLogin extension
 
-[![Build Status](https://travis-ci.org/qrLogin/qrLogin_phpBB.svg?branch=master)](https://travis-ci.org/qrLogin/qrLogin_phpBB)
+[![Build Status](https://travis-ci.org/qrLogin/qrlogin_phpBB.svg?branch=master)](https://travis-ci.org/qrLogin/qrlogin_phpBB)
 
 ## Install
 

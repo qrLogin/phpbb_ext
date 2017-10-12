@@ -28,31 +28,31 @@ class qrlogin
 		$this->qrlogin_table = $qrlogin_table;
 	}
 
-    function get_field_session($field, $sql_where)
-    {
+	function get_field_session($field, $sql_where)
+	{
 		$sql	 = 'SELECT ' . $field . ' FROM ' . $this->qrlogin_table . $sql_where;
 		$result	 = $this->db->sql_query($sql);
 		$row	 = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
 		return $row[$field];
-    }
+	}
 
 	public function ajax()
 	{
-        $sid = md5('qrlogin' . $this->user->session_id);
+		$sid = md5('qrlogin' . $this->user->session_id);
 		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', ['sid' => $sid]);
 
-        $poll_lifetime = $this->config['qrlogin_poll_lifetime'];
+		$poll_lifetime = $this->config['qrlogin_poll_lifetime'];
 
-        // waiting for login - max $poll_lifetime s
-        while (true)
-        {
-            // received uid for login
-            if ($uid = $this->get_field_session('uid', $sql_where))
-            {
-                break;
-            }
+		// waiting for login - max $poll_lifetime s
+		while (true)
+		{
+			// received uid for login
+			if ($uid = $this->get_field_session('uid', $sql_where))
+			{
+				break;
+			}
 			if (--$poll_lifetime < 0)
 			{
 				return new Response('', 200);
@@ -62,17 +62,17 @@ class qrlogin
 			{
 				return new Response('', 200);
 			}
-        }
+		}
 
-        // received uid for login - Session creation
-        $res = $this->user->session_create($uid, false, false, true);
+		// received uid for login - Session creation
+		$res = $this->user->session_create($uid, false, false, true);
 
-        // set login status for qrLogin post to 200 or 403 - Forbidden
+		// set login status for qrLogin post to 200 or 403 - Forbidden
 		$sql = 'UPDATE ' . $this->qrlogin_table . ' SET ' . $this->db->sql_build_array('UPDATE', ['result' => ($res ? 200 : 403)]) . $sql_where;
 		$this->db->sql_query($sql);
-    
-        // answer to ajax with '1' for reload page if OK
-        return new Response($res ? '1' : '', 200);
+
+		// answer to ajax with '1' for reload page if OK
+		return new Response($res ? '1' : '', 200);
 	}
 
 	public function post()
@@ -90,35 +90,35 @@ class qrlogin
 		$login = $this->auth->login(urldecode($postdata['login']), urldecode($postdata['password']), false);
 
 		// if error login - 403 Forbidden
-        if (empty($login) || $login['status'] != LOGIN_SUCCESS || $this->user->data['user_id'] == ANONYMOUS)
-        {
-            return new Response('', 403);
-        }
+		if (empty($login) || $login['status'] != LOGIN_SUCCESS || $this->user->data['user_id'] == ANONYMOUS)
+		{
+			return new Response('', 403);
+		}
 
-        $sid = md5('qrlogin' . urldecode($postdata['sessionid']));
+		$sid = md5('qrlogin' . urldecode($postdata['sessionid']));
 		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', ['sid' => $sid]);
-        $sql_del = 'DELETE FROM ' . $this->qrlogin_table . $sql_where;
-        $sql_ins = 'INSERT INTO ' . $this->qrlogin_table . ' ' . $this->db->sql_build_array('INSERT', ['sid' => $sid, 'uid' => $this->user->data['user_id']]);
+		$sql_del = 'DELETE FROM ' . $this->qrlogin_table . $sql_where;
+		$sql_ins = 'INSERT INTO ' . $this->qrlogin_table . ' ' . $this->db->sql_build_array('INSERT', ['sid' => $sid, 'uid' => $this->user->data['user_id']]);
 
-        // remove queue from db
-        $this->db->sql_query($sql_del);
+		// remove queue from db
+		$this->db->sql_query($sql_del);
 
-        // insert queue into db
-        $this->db->sql_query($sql_ins);
+		// insert queue into db
+		$this->db->sql_query($sql_ins);
 
-        // waiting for answer - max qrlogin_post_timeout s
-        $post_timeout = $this->config['qrlogin_post_timeout'];
-     	while ((!$ans = $this->get_field_session('result', $sql_where)) && ($post_timeout-- > 0))
-     	{
-            sleep(1);
-        }
+		// waiting for answer - max qrlogin_post_timeout s
+		$post_timeout = $this->config['qrlogin_post_timeout'];
+		while ((!$ans = $this->get_field_session('result', $sql_where)) && ($post_timeout-- > 0))
+		{
+			sleep(1);
+		}
 
-        // if not exists answer ! 408 Request Timeout
-        $ans = $ans ? $ans : 408;
+		// if not exists answer ! 408 Request Timeout
+		$ans = $ans ? $ans : 408;
 
-        // remove queue from db
-        $this->db->sql_query($sql_del);
+		// remove queue from db
+		$this->db->sql_query($sql_del);
 
-        return new Response('', $ans);
+		return new Response('', $ans);
 	}
 }
