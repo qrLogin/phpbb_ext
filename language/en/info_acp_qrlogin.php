@@ -58,5 +58,6 @@ $lang = array_merge(
 		'QRLOGIN_QRCODE_BACK_COLOR'					=> 'Background color',
 		'QRLOGIN_QRCODE_COLOR_EXPLAIN'              => 'When specifying colors for the code, choose contrast combinations. Preferably dark on a light background.',
 		'ACP_QRLOGIN_SETTING_SAVED'                 => 'The qrLogin settings have been successfully saved!',
+		'ACP_QRLOGIN_SETTING_LOG'                   => '<strong>qrLogin settings updated</strong>',
 	)
 );

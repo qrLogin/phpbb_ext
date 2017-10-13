@@ -1,3 +1,4 @@
+		'ACP_QRLOGIN_SETTING_LOG'                   => '<strong>qrLogin settings updated</strong>',
 <?php
 
 /**
@@ -58,5 +59,6 @@ $lang = array_merge(
 		'QRLOGIN_QRCODE_BACK_COLOR'                 => 'Цвет фона',
 		'QRLOGIN_QRCODE_COLOR_EXPLAIN'              => 'Задавая цвета для кода, выбирайте контрастные сочетания. Предпочтительно темные на светлом фоне.',
 		'ACP_QRLOGIN_SETTING_SAVED'                 => 'Настройки qrLogin успешно сохранены!',
+		'ACP_QRLOGIN_SETTING_LOG'                   => '<strong>Настройки qrLogin изменены</strong>',
 	)
 );

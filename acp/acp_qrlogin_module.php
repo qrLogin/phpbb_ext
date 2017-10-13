@@ -19,7 +19,7 @@ class acp_qrlogin_module
 
 	public function main($id, $mode)
 	{
-		global $phpbb_container, $template, $request, $config;
+		global $phpbb_container, $template, $request, $config, $user;
 
 		// for compatible with 3.1 version phpBB
 		$lang_module = ($config['version'] < 3.2) ? 'user' : 'language';
@@ -44,6 +44,8 @@ class acp_qrlogin_module
 			$config->set('qrlogin_qrcode_size', $request->variable('qrlogin_qrcode_size', 96));
 			$config->set('qrlogin_qrcode_fore_color', $request->variable('qrlogin_qrcode_fore_color', '#000064'));
 			$config->set('qrlogin_qrcode_back_color', $request->variable('qrlogin_qrcode_back_color', '#FFFFFF'));
+
+			$phpbb_container->get('log')->add('admin', $user->data['user_id'], $user->ip, 'ACP_QRLOGIN_SETTING_LOG');
 
 			trigger_error($phpbb_container->get($lang_module)->lang('ACP_QRLOGIN_SETTING_SAVED') . adm_back_link($this->u_action));
 		}
