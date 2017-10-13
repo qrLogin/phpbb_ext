@@ -46,13 +46,8 @@ class qrlogin
 		$poll_lifetime = $this->config['qrlogin_poll_lifetime'];
 
 		// waiting for login - max $poll_lifetime s
-		while (true)
+		while (!$uid = $this->get_field_session('uid', $sql_where))
 		{
-			// received uid for login
-			if ($uid = $this->get_field_session('uid', $sql_where))
-			{
-				break;
-			}
 			if (--$poll_lifetime < 0)
 			{
 				return new Response('', 200);
