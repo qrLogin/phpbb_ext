@@ -1,4 +1,3 @@
-		'ACP_QRLOGIN_SETTING_LOG'                   => '<strong>qrLogin settings updated</strong>',
 <?php
 
 /**
