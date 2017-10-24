@@ -16,7 +16,7 @@ class qrlogin
 	protected $config;
 	protected $auth;
 	protected $user;
-    protected $request;
+	protected $request;
 	protected $db;
 	protected $qrlogin_table;
 
@@ -42,7 +42,7 @@ class qrlogin
 
 	public function ajax()
 	{
- 		$sid = md5('qrlogin' . $this->request->variable('qrlogin_sid', '', true));
+		$sid = md5('qrlogin' . $this->request->variable('qrlogin_sid', '', true));
 
 		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', array('sid' => $sid));
 
