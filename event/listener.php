@@ -74,6 +74,7 @@ class listener implements EventSubscriberInterface
 			'A_QRLOGIN_FORUM_URL'       => addslashes($forum_url),
 			'A_QRLOGIN_AJAX_URL'        => addslashes($this->helper->route('qrlogin_qrlogin_ajax', array(), false, false, UrlGeneratorInterface::ABSOLUTE_URL)),
 			'A_QRLOGIN_POST_URL'        => addslashes("/" . $this->helper->route('qrlogin_qrlogin_post', array(), false, false, UrlGeneratorInterface::RELATIVE_PATH)),
+			'A_QRLOGIN_SESSION_ID'      => addslashes($this->user->session_id),
 			'A_QRLOGIN_USERNAME'        => addslashes($this->user->data['username']),
 			'QRLOGIN_SIZE'              => (int) $this->config['qrlogin_qrcode_size'],
 			'A_QRLOGIN_FORE_COLOR'      => addslashes($this->config['qrlogin_qrcode_fore_color']),

@@ -5,8 +5,8 @@ function randomString(length) {
     for (var i = length; i > 0; --i) result += Math.floor(Math.random() * 36).toString(36);
     return result;
 }
-var qrlogin_session = randomString(20);
-var qrlogin_text = 'QRLOGIN\nL:V1\n' + qrlogin_forum_url + '\n' + qrlogin_session;
+var qrlogin_sid = qrlogin_session_id+'='+randomString(16);
+var qrlogin_text = 'QRLOGIN\nL:V1\n' + qrlogin_forum_url + '\n' + qrlogin_sid;
 var qrloginAjaxRun = 0;
 function qrlogin_if_logged(){ 
     if (document.getElementById("qrlogin_dropdown").style["display"] != "none") {
@@ -14,7 +14,7 @@ function qrlogin_if_logged(){
         $.ajax({
             url: qrlogin_ajax_url,
             method: "POST",
-            data: { qrlogin_sid: qrlogin_session },
+            data: { qrlogin_sid: qrlogin_sid },
             success: function(data) {
                 qrloginAjaxRun = 0;
                 if(data) window.location.reload(true);
