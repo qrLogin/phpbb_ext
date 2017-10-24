@@ -1,10 +1,10 @@
 <li class="rightside" data-skip-responsive="true">
     <div class="header-profile dropdown-container">
-        <a href="#" class="dropdown-trigger" onclick="qrlogin_onclick()" style="background-image:url(./ext/qrlogin/qrlogin/styles/all/theme/images/logo.png); background-position: 0 50%; background-repeat: no-repeat; background-size: 16px; padding: 0 0 0 18px;">qrLogin</a>
+        <a href="#" class="dropdown-trigger" onclick="qrlogin_onclick()" style="background-image:url(./ext/qrlogin/qrlogin/styles/all/theme/images/logo.png); background-position: 0 50%; background-repeat: no-repeat; background-size: 16px; padding: 0 0 0 20px;">qrLogin</a>
         <div id="qrlogin_dropdown" class="dropdown" style="display:none; max-width:240px;">
             <div class="pointer"><div class="pointer-inner"></div></div>
             <ul class="dropdown-contents">
-                <li style="white-space: normal;">
+                <li style="white-space: normal; padding:0">
                     <a id="qrl_qrcode" href="http://qrlogin.info" target="_blank" style="float:right"></a>
                     {L_SCAN_QRLOGIN_PROMPT}
                     <span id="qrlogin_dots">.</span>
@@ -15,7 +15,7 @@
 </li>
 <script type="text/javascript">
     var qrlogin_forum_url = "{A_QRLOGIN_FORUM_URL}";
-    var qrlogin_session_id = "{A_QRLOGIN_SESSION_ID}";
+    var qrlogin_ajax_url = "{A_QRLOGIN_AJAX_URL}";
     var qrlogin_title = "{LA_SCAN_QRLOGIN}";
     var qrlogin_size = {QRLOGIN_SIZE};
     var qrlogin_fore_color = "{A_QRLOGIN_FORE_COLOR}";

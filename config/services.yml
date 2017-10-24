@@ -8,6 +8,7 @@ services:
             - '@config'
             - '@template'
             - '@user'
+            - '@controller.helper'
         tags:
             - { name: event.listener }
     qrlogin.qrlogin.controller:
@@ -16,5 +17,6 @@ services:
             - '@config'
             - '@auth'
             - '@user'
+            - '@request'
             - '@dbal.conn'
             - '%tables.qrlogin%'

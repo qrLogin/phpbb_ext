@@ -16,14 +16,16 @@ class qrlogin
 	protected $config;
 	protected $auth;
 	protected $user;
+    protected $request;
 	protected $db;
 	protected $qrlogin_table;
 
-	public function __construct(\phpbb\config\config $config, \phpbb\auth\auth $auth, \phpbb\user $user, \phpbb\db\driver\driver_interface $db, $qrlogin_table)
+	public function __construct(\phpbb\config\config $config, \phpbb\auth\auth $auth, \phpbb\user $user, \phpbb\request\request $request, \phpbb\db\driver\driver_interface $db, $qrlogin_table)
 	{
 		$this->config = $config;
 		$this->auth = $auth;
 		$this->user = $user;
+		$this->request = $request;
 		$this->db = $db;
 		$this->qrlogin_table = $qrlogin_table;
 	}
@@ -40,8 +42,9 @@ class qrlogin
 
 	public function ajax()
 	{
-		$sid = md5('qrlogin' . $this->user->session_id);
-		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', ['sid' => $sid]);
+ 		$sid = md5('qrlogin' . $this->request->variable('qrlogin_sid', '', true));
+
+		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', array('sid' => $sid));
 
 		$poll_lifetime = $this->config['qrlogin_poll_lifetime'];
 
@@ -63,7 +66,7 @@ class qrlogin
 		$res = $this->user->session_create($uid, false, false, true);
 
 		// set login status for qrLogin post to 200 or 403 - Forbidden
-		$sql = 'UPDATE ' . $this->qrlogin_table . ' SET ' . $this->db->sql_build_array('UPDATE', ['result' => ($res ? 200 : 403)]) . $sql_where;
+		$sql = 'UPDATE ' . $this->qrlogin_table . ' SET ' . $this->db->sql_build_array('UPDATE', array('result' => ($res ? 200 : 403))) . $sql_where;
 		$this->db->sql_query($sql);
 
 		// answer to ajax with '1' for reload page if OK
@@ -91,9 +94,9 @@ class qrlogin
 		}
 
 		$sid = md5('qrlogin' . urldecode($postdata['sessionid']));
-		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', ['sid' => $sid]);
+		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', array('sid' => $sid));
 		$sql_del = 'DELETE FROM ' . $this->qrlogin_table . $sql_where;
-		$sql_ins = 'INSERT INTO ' . $this->qrlogin_table . ' ' . $this->db->sql_build_array('INSERT', ['sid' => $sid, 'uid' => $this->user->data['user_id']]);
+		$sql_ins = 'INSERT INTO ' . $this->qrlogin_table . ' ' . $this->db->sql_build_array('INSERT', array('sid' => $sid, 'uid' => $this->user->data['user_id']));
 
 		// remove queue from db
 		$this->db->sql_query($sql_del);
