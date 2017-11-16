@@ -19,4 +19,5 @@ services:
             - '@user'
             - '@request'
             - '@dbal.conn'
+            - '@passwords.manager'
             - '%tables.qrlogin%'

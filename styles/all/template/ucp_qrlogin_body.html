@@ -14,18 +14,9 @@
                     <dt>
                         <label>{L_SCAN_FOR_QRLOGIN}{L_COLON}</label><br />
                         <span id="qrlogin_description">{L_SCAN_DESCRIPTION}</span>
-                        <span id="qrlogin_description_pass" style="display:none">{L_SCAN_DESCRIPTION_PASS}</span>
                     </dt>
                     <dd>
                         <a id="qrl_qrcode" href="http://qrlogin.info" target="_blank"></a>
-                    </dd>
-                </dl>
-                <hr />
-                <dl>
-                    <dt><label for="cur_password">{L_CURRENT_PASSWORD}{L_COLON}</label><br /><span>{L_SCAN_PASSWORD_EXPLAIN}</span></dt>
-                    <dd>
-                        <input type="password" id="cur_password" maxlength="255" class="inputbox" style="width:70%" title="{L_CURRENT_PASSWORD}" autocomplete="off" />
-                        <input type="button" onclick="qrlogin_get_qrcode()" value="{L_SHOW_QRCODE}" class="button2" />
                     </dd>
                 </dl>
             </fieldset>
@@ -53,9 +44,7 @@
 	</div>
 </form>
 <script type="text/javascript">
-    var qrlogin_forum_url = "{A_QRLOGIN_FORUM_URL}";
-    var qrlogin_post_url = "{A_QRLOGIN_POST_URL}";
-    var qrlogin_username = "{A_QRLOGIN_USERNAME}";
+    var qrlogin_txt = "QRLOGIN\nNU:V1\n{A_QRLOGIN_FORUM_URL}\n{A_QRLOGIN_POST_URL}\n{S_USERNAME}\n\n2";
     var qrlogin_title = "{LA_SCAN_QRLOGIN}";
     var qrlogin_size = {QRLOGIN_SIZE};
     var qrlogin_fore_color = "{A_QRLOGIN_FORE_COLOR}";

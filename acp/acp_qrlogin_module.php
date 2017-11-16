@@ -41,7 +41,7 @@ class acp_qrlogin_module
 			$config->set('qrlogin_poll_lifetime', $request->variable('qrlogin_poll_lifetime', 20));
 			$config->set('qrlogin_post_timeout', $request->variable('qrlogin_post_timeout', 10));
 			$config->set('qrlogin_login_timeout', $request->variable('qrlogin_login_timeout', 3));
-			$config->set('qrlogin_qrcode_size', $request->variable('qrlogin_qrcode_size', 96));
+			$config->set('qrlogin_qrcode_size', $request->variable('qrlogin_qrcode_size', 128));
 			$config->set('qrlogin_qrcode_fore_color', $request->variable('qrlogin_qrcode_fore_color', '#000064'));
 			$config->set('qrlogin_qrcode_back_color', $request->variable('qrlogin_qrcode_back_color', '#FFFFFF'));
 
