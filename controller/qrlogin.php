@@ -22,14 +22,14 @@ class qrlogin
 	protected $qrlogin_table;
 
 	public function __construct(
-        \phpbb\config\config $config,
-        \phpbb\auth\auth $auth,
-        \phpbb\user $user,
-        \phpbb\request\request $request,
-        \phpbb\db\driver\driver_interface $db,
-        \phpbb\passwords\manager $passwords_manager,
-        $qrlogin_table
-    )
+		\phpbb\config\config $config,
+		\phpbb\auth\auth $auth,
+		\phpbb\user $user,
+		\phpbb\request\request $request,
+		\phpbb\db\driver\driver_interface $db,
+		\phpbb\passwords\manager $passwords_manager,
+		$qrlogin_table
+	)
 	{
 		$this->config = $config;
 		$this->auth = $auth;
@@ -58,12 +58,12 @@ class qrlogin
 
 	public function ajax()
 	{
-		// check request is ajax and 'qrlogin_sid' 
+		// check request is ajax and 'qrlogin_sid'
 		if (!$this->request->is_ajax() || !$this->request->is_set_post('qrlogin_sid'))
 		{
 			return $this->hack_attemp();
 		}
-		// check link_hash and session_id in 'qrlogin_sid' 
+		// check link_hash and session_id in 'qrlogin_sid'
 		$qa = preg_split( "/=/", $this->request->variable('qrlogin_sid', ''));
 		if (!check_link_hash($qa[0], 'qrLogin' . $this->user->session_id) || ($qa[1] != $this->user->session_id))
 		{
@@ -101,7 +101,7 @@ class qrlogin
 
 	public function post()
 	{
-		// check for post from App qrLogin 
+		// check for post from App qrLogin
 		if (substr($this->request->server('HTTP_USER_AGENT'), 0, 7) != 'qrLogin')
 		{
 			return $this->hack_attemp();
