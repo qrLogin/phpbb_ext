@@ -49,7 +49,11 @@ env:
     - /^develop-.*$/
     - /^\d+(\.\d+)?\.x$/
 
+# Tempory hack to address EPV failure
+# https://www.phpbb.com/community/viewtopic.php?f=461&t=2430651&start=15#p14881401
 before_install:
+  - composer self-update 1.5.2 --rollback
+# end temporary hack
   - sudo mkdir travis
   - git clone "https://github.com/phpbb/phpbb-ext-acme-demo.git"
   - sudo cp phpbb-ext-acme-demo/phpunit.xml.dist ./
