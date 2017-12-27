@@ -60,11 +60,6 @@ class listener implements EventSubscriberInterface
 			'A_QRLOGIN_AJAX_URL'        => addslashes($this->helper->route('qrlogin_qrlogin_ajax', array(), false, false, UrlGeneratorInterface::ABSOLUTE_URL)),
 			'A_QRLOGIN_POST_URL'        => addslashes("/" . $this->helper->route('qrlogin_qrlogin_post', array(), false, false, UrlGeneratorInterface::RELATIVE_PATH)),
 			'A_QRLOGIN_SID'             => addslashes(generate_link_hash('qrLogin' . $this->user->session_id) . '=' . $this->user->session_id),
-			'QRLOGIN_SIZE'              => (int) $this->config['qrlogin_qrcode_size'],
-			'A_QRLOGIN_FORE_COLOR'      => addslashes($this->config['qrlogin_qrcode_fore_color']),
-			'A_QRLOGIN_BACK_COLOR'      => addslashes($this->config['qrlogin_qrcode_back_color']),
-			'QRLOGIN_TIMEOUT'           => (int) $this->config['qrlogin_timeout'],
-			'QRLOGIN_LOGIN_TIMEOUT'     => (int) $this->config['qrlogin_login_timeout'],
 		));
 	}
 }

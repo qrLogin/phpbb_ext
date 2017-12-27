@@ -25,16 +25,15 @@ function qrlogin_stop_scan() {
 function qrlogin_start_scan() {
   	if (qrloginAjaxRun) return;
     qrloginAjaxRun = true;
-    setTimeout(qrlogin_if_logged, qrLogin_TimeOut);
+    setTimeout(qrlogin_if_logged, 2000);
 }
 var qrlogin_timeout_id = null;
 function qrlogin_onclick() {
 	if (document.getElementById("qrlogin_dropdown").style["display"] != "none") return;
 	qrlogin_start_scan();
-    if (qrlogin_login_TimeOut === 0) return;
     document.getElementById("qrlogin_dots").innerHTML = "";
     clearTimeout(qrlogin_timeout_id);
-    qrlogin_timeout_id = setTimeout(function(){ qrlogin_stop_scan(); }, qrlogin_login_TimeOut);
+    qrlogin_timeout_id = setTimeout(function(){ qrlogin_stop_scan(); }, 60000);
 }
 function randomString(length) {
     var result = '';
@@ -47,12 +46,10 @@ $(document).ready(function() {
     var e = document.getElementById("qrl_qrcode");
     new QRCode( e, {
         text: qrtxt,
-        width: qrlogin_size, height: qrlogin_size,
-        colorDark: qrlogin_fore_color, colorLight: qrlogin_back_color,
+        width: 128, height: 128, colorDark: "#000064", colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.M
     });
     e.title = qrlogin_title;
-    if( /Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent) ) {
-        e.href = "qrlogin://" + qrtxt.replace(/\n/g, "%0A");
-    }
+    if ( /Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent) )
+        e.href = "qrlogin://" + qrtxt.replace(/\n/g, "%0A") + "qrlogin://" + window.location.href;
 });

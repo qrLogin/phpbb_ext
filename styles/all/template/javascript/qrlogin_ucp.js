@@ -1,13 +1,11 @@
 $(document).ready(function(){
-    var qrl_qrcode = document.getElementById("qrl_qrcode");
-    new QRCode( qrl_qrcode, {
+    var e = document.getElementById("qrl_qrcode");
+    new QRCode( e, {
         text: qrlogin_txt,
-        width: qrlogin_size, height: qrlogin_size,
-        colorDark: qrlogin_fore_color, colorLight: qrlogin_back_color,
+        width: 128, height: 128, colorDark: "#000064", colorLight: "#ffffff",
         correctLevel: QRCode.CorrectLevel.M
     });
-    qrl_qrcode.title = qrlogin_title;
-    if( /Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent) ) {
-        qrl_qrcode.href = "qrlogin://" + qrlogin_txt.replace(/\n/g, "%0A");
-    }
+    e.title = qrlogin_title;
+    if ( /Android|webOS|iPhone|iPad|iPod|Opera Mini/i.test(navigator.userAgent) )
+        e.href = "qrlogin://" + qrlogin_txt.replace(/\n/g, "%0A");
 });

@@ -14,43 +14,6 @@
                 <input type="radio" class="radio" name="qrlogin_del_http" value="0" <!-- IF not qrlogin_del_http --> checked="checked" <!-- ENDIF -->/> {L_NO}</dd>
         </dl>
     </fieldset>
-    <fieldset>
-        <dl>
-			<dt><label for="qrlogin_qrcode_size">{L_QRLOGIN_QRCODE_SIZE}{L_COLON}</label><br /><span>{L_QRLOGIN_QRCODE_SIZE_EXPLAIN}</span></dt>
-			<dd><input id="qrlogin_qrcode_size" type="number" name="qrlogin_qrcode_size" value="{{ qrlogin_qrcode_size }}" min="64" max="256" /> {L_PIXEL}</dd>
-		</dl>
-        <dl>
-            <dt>
-                <label for="qrlogin_qrcode_fore_color">{L_QRLOGIN_QRCODE_FORE_COLOR}</label>
-                &nbsp;/&nbsp;
-                <label for="qrlogin_qrcode_back_color">{L_QRLOGIN_QRCODE_BACK_COLOR}{L_COLON}</label>
-                <br /><span>{L_QRLOGIN_QRCODE_COLOR_EXPLAIN}</span>
-            </dt>
-            <dd>
-                <input class="jscolor {hash:true, uppercase:false}" name="qrlogin_qrcode_fore_color" type="text" id="qrlogin_qrcode_fore_color" value="{{ qrlogin_qrcode_fore_color }}" size="8" maxlength="8" />
-                &nbsp;/&nbsp;
-                <input class="jscolor {hash:true, uppercase:false}" name="qrlogin_qrcode_back_color" type="text" id="qrlogin_qrcode_back_color" value="{{ qrlogin_qrcode_back_color }}" size="8" maxlength="8" />
-            </dd>
-		</dl>
-    </fieldset>
-    <fieldset>
-        <dl>
-			<dt><label for="qrlogin_login_timeout">{L_QRLOGIN_LOGIN_TIMEOUT}{L_COLON}</label><br /><span>{L_QRLOGIN_LOGIN_TIMEOUT_EXPLAIN}</span></dt>
-			<dd><input id="qrlogin_login_timeout" type="number" name="qrlogin_login_timeout" value="{{ qrlogin_login_timeout }}" min="0" max="10" /> {L_MINUTES}</dd>
-		</dl>
-        <dl>
-			<dt><label for="qrlogin_timeout">{L_QRLOGIN_TIMEOUT}{L_COLON}</label><br /><span>{L_QRLOGIN_TIMEOUT_EXPLAIN}</span></dt>
-			<dd><input id="qrlogin_timeout" type="number" name="qrlogin_timeout" value="{{ qrlogin_timeout }}" min="0" max="5" /> {L_SECONDS}</dd>
-		</dl>
-        <dl>
-			<dt><label for="qrlogin_poll_lifetime">{L_QRLOGIN_POLL_LIFETIME}{L_COLON}</label><br /><span>{L_QRLOGIN_POLL_LIFETIME_EXPLAIN}</span></dt>
-			<dd><input id="qrlogin_poll_lifetime" type="number" name="qrlogin_poll_lifetime" value="{{ qrlogin_poll_lifetime }}" min="0" max="300" /> {L_SECONDS}</dd>
-		</dl>
-        <dl>
-			<dt><label for="qrlogin_post_timeout">{L_QRLOGIN_POST_TIMEOUT}{L_COLON}</label><br /><span>{L_QRLOGIN_POST_TIMEOUT_EXPLAIN}</span></dt>
-			<dd><input id="qrlogin_post_timeout" type="number" name="qrlogin_post_timeout" value="{{ qrlogin_post_timeout }}" min="5" max="60" /> {L_SECONDS}</dd>
-		</dl>
-    </fieldset>
     <fieldset>    
         <legend>{L_ACP_SUBMIT_CHANGES}</legend>
 		<p class="submit-buttons">
@@ -60,7 +23,5 @@
         {S_FORM_TOKEN}
     </fieldset>
 </form>
-
-{% INCLUDEJS '@qrlogin_qrlogin/jscolor.js' %}
 
 <!-- INCLUDE overall_footer.html -->

@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class qrlogin
 {
-	protected $config;
 	protected $auth;
 	protected $user;
 	protected $request;
@@ -22,7 +21,6 @@ class qrlogin
 	protected $qrlogin_table;
 
 	public function __construct(
-		\phpbb\config\config $config,
 		\phpbb\auth\auth $auth,
 		\phpbb\user $user,
 		\phpbb\request\request $request,
@@ -31,7 +29,6 @@ class qrlogin
 		$qrlogin_table
 	)
 	{
-		$this->config = $config;
 		$this->auth = $auth;
 		$this->user = $user;
 		$this->request = $request;
@@ -52,7 +49,6 @@ class qrlogin
 
 	function hack_attemp()
 	{
-		sleep(60);
 		return new Response('', 400);
 	}
 
@@ -63,6 +59,7 @@ class qrlogin
 		{
 			return $this->hack_attemp();
 		}
+
 		// check link_hash and session_id in 'qrlogin_sid'
 		$qa = preg_split( "/=/", $this->request->variable('qrlogin_sid', ''));
 		if (!check_link_hash($qa[0], 'qrLogin' . $this->user->session_id) || ($qa[1] != $this->user->session_id))
@@ -73,27 +70,18 @@ class qrlogin
 		$sid = md5('qrlogin' . $this->request->variable('qrlogin_sid', ''));
 		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', array('sid' => $sid));
 
-		// waiting for uid from post - max $poll_lifetime s
-		$poll_lifetime = $this->config['qrlogin_poll_lifetime'];
-		while (!$uid = $this->get_field_session('uid', $sql_where))
+		// not exist uid from phone post
+		if (!$uid = $this->get_field_session('uid', $sql_where))
 		{
-			if (--$poll_lifetime < 0)
-			{
-				return new Response('', 200);
-			}
-			sleep(1);
-			if (connection_aborted())
-			{
-				return new Response('', 200);
-			}
+			return new Response('', 200);
 		}
 
-		// received uid for login - Session creation
-		$res = $this->user->session_create($uid, false, false, true);
+		// remove queue from db
+		$sql_del = 'DELETE FROM ' . $this->qrlogin_table . $sql_where;
+		$this->db->sql_query($sql_del);
 
-		// set login status for qrLogin post to 200 or 403 - Forbidden
-		$sql = 'UPDATE ' . $this->qrlogin_table . ' SET ' . $this->db->sql_build_array('UPDATE', array('result' => ($res ? 200 : 403))) . $sql_where;
-		$this->db->sql_query($sql);
+		// Session creation
+		$res = $this->user->session_create($uid, false, false, true);
 
 		// answer to ajax with '1' for reload page if OK
 		return new Response($res ? '1' : '', 200);
@@ -122,6 +110,7 @@ class qrlogin
 		{
 			return $this->hack_attemp();
 		}
+
 		// check 'qrlogin_sid' - session exist
 		$sql = 'SELECT *
 			FROM ' . SESSIONS_TABLE . "
@@ -142,35 +131,24 @@ class qrlogin
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
+		// if error - 403 Forbidden
 		if (!$row || !$this->passwords_manager->check(urldecode($postdata['password']), $row['user_password'], $row))
 		{
-			// if error - 403 Forbidden
 			return new Response('', 403);
 		}
 		$uid = $row['user_id'];
 
 		$sid = md5('qrlogin' . urldecode($postdata['sessionid']));
-		$sql_where = ' WHERE ' . $this->db->sql_build_array('SELECT', array('sid' => $sid));
-		$sql_del = 'DELETE FROM ' . $this->qrlogin_table . $sql_where;
-		$sql_ins = 'INSERT INTO ' . $this->qrlogin_table . ' ' . $this->db->sql_build_array('INSERT', array('sid' => $sid, 'uid' => $uid));
 
 		// remove queue from db
+		$sql_del = 'DELETE FROM ' . $this->qrlogin_table . ' WHERE ' . $this->db->sql_build_array('SELECT', array('sid' => $sid));
 		$this->db->sql_query($sql_del);
 
 		// insert queue into db
+		$sql_ins = 'INSERT INTO ' . $this->qrlogin_table . ' ' . $this->db->sql_build_array('INSERT', array('sid' => $sid, 'uid' => $uid));
 		$this->db->sql_query($sql_ins);
 
-		// waiting for answer - max qrlogin_post_timeout s
-		$post_timeout = $this->config['qrlogin_post_timeout'];
-		while ((!$ans = $this->get_field_session('result', $sql_where)) && ($post_timeout-- > 0))
-		{
-			sleep(1);
-		}
-
-		// remove queue from db
-		$this->db->sql_query($sql_del);
-
-		// if not exists answer ! 408 Request Timeout
-		return new Response('', $ans ? $ans : 408);
+		// answer Ok
+		return new Response('', 200);
 	}
 }
